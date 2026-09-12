@@ -1,0 +1,53 @@
+name: Check for new sermons
+
+# This is the "robot" described in the setup guide. It runs automatically
+# once a day, and can also be run manually from the Actions tab at any time.
+#
+# What it does, in order, for EACH sermon in the feed that doesn't have an
+# article yet:
+#   1. Downloads the current SermonAudio RSS feed.
+#   2. Compares it to articles-data.json to find sermons without an article.
+#   3. Asks Claude to draft an article using article-template.html as the
+#      design template.
+#   4. Creates a new branch, adds the draft article file, updates the
+#      homepage list, and opens a pull request for Matthew to review.
+#
+# If several sermons are new at once (for example, the very first run,
+# before any automated articles exist), you'll get one pull request per
+# sermon, so each can be reviewed and approved separately.
+#
+# Nothing in this file publishes anything by itself — a pull request is
+# only a proposal until a human clicks "Merge."
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # once a day, 13:00 UTC (about 8-9am US Eastern)
+  workflow_dispatch: {}     # lets you click "Run workflow" manually
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install required packages
+        run: pip install anthropic requests
+
+      - name: Look for new sermons, draft articles, and open pull requests
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/generate_article.py
