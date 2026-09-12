@@ -1,0 +1,15 @@
+# Netlify configuration for sermons.wordandhope.com
+# You should not need to edit this file. It tells Netlify:
+#  - where the website's files live in this repository (the top level)
+#  - to use the _redirects file for any old-link forwarding
+#  - to add a couple of safe default security headers
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
