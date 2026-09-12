@@ -1,12 +1,36 @@
 #!/usr/bin/env python3
 """
 Checks the SermonAudio RSS feed for sermons that don't have an article yet
-on sermons.wordandhope.com, drafts an article for each one using Claude,
-and opens a separate pull request per sermon for human review.
+on sermons.wordandhope.com, fetches each sermon's transcript (if SermonAudio
+has one) from the SermonAudio API, and commits it straight to the
+/transcripts folder on the main branch.
+
+This script does NOT write the article itself and does NOT call any AI
+service. It only gathers the raw material (the transcript, or a clear note
+that none exists) and drops it into /transcripts. A separate, scheduled
+Plaud Background Agent (set up in the setup guide, Step 3.6) checks that
+folder on its own schedule, writes the finished article, and commits it
+back to the repo — see PLAUD_AGENT_INSTRUCTIONS.md for exactly what that
+agent does.
+
+Transcripts are committed directly (no pull request) because a raw
+transcript isn't something that gets published on its own — it's only
+input material for the next step. The human-review point in this pipeline
+is that you set up and can pause the Plaud scheduled task at any time; see
+the setup guide.
+
+On the very first run (when /transcripts is empty and articles-data.json
+only has the one seed example article), there will usually be many sermons
+without a transcript file yet. Rather than silently finding nothing or
+writing dozens of files at once, this script writes the oldest
+MAX_TRANSCRIPTS_PER_RUN of them and says so in its log output — running
+the workflow again (by hand, or on its next scheduled run) works through
+the rest a few at a time.
 
 You should not need to edit this file. If SermonAudio changes the format
-of their feed, the "Parse the feed" section below is the part that would
-need updating — see the setup guide's troubleshooting section.
+of their feed or their API, the "Parse the feed" or "Fetch the transcript"
+sections below are the parts that would need updating — see the setup
+guide's troubleshooting section.
 """
 
 import json
@@ -18,18 +42,14 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
 import requests
-from anthropic import Anthropic
 
 FEED_URL = "https://feed.sermonaudio.com/speaker/65786"
+SERMONAUDIO_API_BASE = "https://api.sermonaudio.com/v2"
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_FILE = os.path.join(REPO_ROOT, "articles-data.json")
-TEMPLATE_FILE = os.path.join(REPO_ROOT, "article-template.html")
-INDEX_TEMPLATE_FILE = os.path.join(REPO_ROOT, "scripts", "articles_index_template.html")
-INDEX_FILE = os.path.join(REPO_ROOT, "index.html")
+TRANSCRIPTS_DIR = os.path.join(REPO_ROOT, "transcripts")
 
-CHURCH_NAME = "First Baptist Church of Wellston"
-PASTOR_NAME = "Matthew Schaefer"
-SITE_NAME = "Word and Hope"
+MAX_TRANSCRIPTS_PER_RUN = 5
 
 
 def slugify(title: str) -> str:
@@ -39,6 +59,22 @@ def slugify(title: str) -> str:
     slug = re.sub(r"\s+", "-", slug)
     slug = re.sub(r"-+", "-", slug)
     return slug.strip("-")[:80]
+
+
+def extract_sermon_id(link: str, guid: str) -> str:
+    """Pulls the numeric SermonAudio sermon ID out of a feed item's link or guid.
+
+    SermonAudio sermon URLs look like:
+      https://www.sermonaudio.com/sermons/81626155257918
+    The trailing digits are the sermon_id the SermonAudio API expects.
+    """
+    for candidate in (link, guid):
+        if not candidate:
+            continue
+        match = re.search(r"/sermons/(\d+)", candidate)
+        if match:
+            return match.group(1)
+    return ""
 
 
 def fetch_feed() -> list[dict]:
@@ -85,6 +121,7 @@ def fetch_feed() -> list[dict]:
                 "guid": guid,
                 "title": title,
                 "sermonaudio_url": link,
+                "sermon_id": extract_sermon_id(link, guid),
                 "description": description,
                 "series": series,
                 "date_display": pub_date_display,
@@ -94,6 +131,58 @@ def fetch_feed() -> list[dict]:
     return sermons
 
 
+def fetch_transcript(sermon_id: str) -> dict:
+    """Looks up a sermon on the SermonAudio API and returns its transcript, if any.
+
+    Returns a dict: {"available": bool, "text": str, "note": str}.
+    Many sermons on SermonAudio simply have no transcript on file — that is
+    normal, not an error, and is handled here rather than treated as a
+    failure.
+    """
+    api_key = os.environ.get("SERMONAUDIO_API_KEY", "")
+    if not api_key:
+        return {
+            "available": False,
+            "text": "",
+            "note": "No SERMONAUDIO_API_KEY was configured, so the transcript lookup was skipped.",
+        }
+    if not sermon_id:
+        return {
+            "available": False,
+            "text": "",
+            "note": "Could not determine this sermon's SermonAudio ID from the feed, so the transcript lookup was skipped.",
+        }
+
+    headers = {"x-api-key": api_key}
+    detail_url = f"{SERMONAUDIO_API_BASE}/node/sermons/{sermon_id}"
+    response = requests.get(detail_url, headers=headers, timeout=30)
+    if response.status_code != 200:
+        return {
+            "available": False,
+            "text": "",
+            "note": f"SermonAudio API returned an error looking up this sermon (status {response.status_code}).",
+        }
+
+    sermon_record = response.json()
+    transcript_info = sermon_record.get("transcript")
+    if not transcript_info or not transcript_info.get("downloadURL"):
+        return {
+            "available": False,
+            "text": "",
+            "note": "SermonAudio does not have a transcript on file for this sermon.",
+        }
+
+    transcript_response = requests.get(transcript_info["downloadURL"], timeout=30)
+    if transcript_response.status_code != 200:
+        return {
+            "available": False,
+            "text": "",
+            "note": "SermonAudio listed a transcript for this sermon, but it could not be downloaded.",
+        }
+
+    return {"available": True, "text": transcript_response.text.strip(), "note": ""}
+
+
 def load_articles_data() -> dict:
     if not os.path.exists(DATA_FILE):
         return {"articles": []}
@@ -101,130 +190,27 @@ def load_articles_data() -> dict:
         return json.load(f)
 
 
-def save_articles_data(data: dict) -> None:
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
-        f.write("\n")
-
-
-def rebuild_index(data: dict) -> None:
-    with open(INDEX_TEMPLATE_FILE, "r", encoding="utf-8") as f:
-        index_template = f.read()
-
-    items_html = []
-    articles_sorted = sorted(data["articles"], key=lambda a: a.get("date_iso", ""), reverse=True)
-    for article in articles_sorted:
-        items_html.append(
-            f"""  <li>
-    <a class="title" href="/{article['slug']}.html">{article['title']}</a>
-    <span class="meta">{article['scripture']} &middot; {article['date_display']}</span>
-  </li>"""
-        )
-    list_html = "\n".join(items_html) if items_html else '  <li class="empty-note">No articles yet.</li>'
-
-    output = index_template.replace("{{ARTICLE_LIST_ITEMS}}", list_html)
-    with open(INDEX_FILE, "w", encoding="utf-8") as f:
-        f.write(output)
-
-
-def build_prompt(sermon: dict, template_html: str, example_article_html: str) -> str:
-    has_description = bool(sermon["description"].strip())
-
-    source_material = (
-        f'The sermon includes this description written by the pastor:\n"""\n{sermon["description"]}\n"""\n'
-        if has_description
-        else (
-            "No written description or transcript is available for this sermon — only its title, "
-            "scripture reference, and series are known. Write an original article grounded in the "
-            "referenced Bible passage itself (as a faithful, conservative Baptist pastor would preach "
-            "it), rather than guessing at what was specifically said in this particular sermon. Do not "
-            "invent quotes, anecdotes, or claims about what was said in the sermon that you cannot know."
-        )
-    )
-
-    return f"""You are drafting a written article for a pastor's church website, based on one of his sermons. \
-Match the tone, structure, and theological voice of the EXAMPLE ARTICLE below exactly — warm, direct, \
-pastoral, conservative evangelical Baptist theology, first-person illustrations used sparingly and only \
-when clearly general (never inventing specific personal anecdotes that aren't given to you), heavy and \
-accurate use of Scripture quoted from the ESV, section headings via <h2>/<h3>, and a closing structure \
-that matches the example (a "soil-list"-style application section is optional and only appropriate if the \
-passage lends itself to a parallel list structure — do not force it).
-
-EXAMPLE ARTICLE (match this style and structure, written for the same site, same author):
----
-{example_article_html}
----
-
-Now write a NEW article for this sermon:
-- Sermon title: {sermon['title']}
-- Scripture reference: {sermon['title']}
-- Series: {sermon['series'] or 'Not specified'}
-- Date preached: {sermon['date_display']}
-{source_material}
-
-Output ONLY a JSON object (no markdown fences, no commentary) with exactly these keys:
-{{
-  "article_title": "an SEO-friendly, human-sounding title, e.g. 'What Does the Bible Say About X?' style if it fits, otherwise a natural title",
-  "article_description": "one or two sentence meta description, under 200 characters",
-  "kicker": "short category label, e.g. 'Bible Topics · The Psalms'",
-  "deck": "one or two sentence subtitle/summary shown under the title",
-  "hero_image_alt": "a plain description of a fitting stock-photo style hero image",
-  "hero_caption": "a short italic caption, often a quoted verse fragment with reference",
-  "article_body_html": "the full article body as HTML, using <section><h2>...</h2><p>...</p></section> blocks, blockquote.verse for Scripture quotes with <cite>, and optionally .pull for a pull-quote — do NOT include the 'Rather Listen' box or author bio, those are added separately",
-  "scripture_reference": "e.g. 'Psalm 29:1-11'"
-}}
-
-The article_body_html should be substantial (roughly 900-1400 words), theologically careful, and never \
-claim to quote something the pastor said that wasn't provided to you as source material."""
-
-
-def draft_article_with_claude(sermon: dict, template_html: str, example_article_html: str) -> dict:
-    client = Anthropic()
-    prompt = build_prompt(sermon, template_html, example_article_html)
-
-    message = client.messages.create(
-        model="claude-opus-4-1-20250805",
-        max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    text = message.content[0].text.strip()
-    text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip())
-    return json.loads(text)
-
-
-def render_article_html(template_html: str, sermon: dict, slug: str, draft: dict) -> str:
-    hero_image_url = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop"
-
-    replacements = {
-        "{{ARTICLE_TITLE}}": draft["article_title"],
-        "{{ARTICLE_DESCRIPTION}}": draft["article_description"],
-        "{{ARTICLE_SLUG}}": slug,
-        "{{HERO_IMAGE_URL}}": hero_image_url,
-        "{{HERO_IMAGE_ALT}}": draft["hero_image_alt"],
-        "{{HERO_CAPTION}}": draft["hero_caption"],
-        "{{KICKER}}": draft["kicker"],
-        "{{DECK}}": draft["deck"],
-        "{{ARTICLE_BODY_HTML}}": draft["article_body_html"],
-        "{{SERMON_TITLE}}": sermon["title"],
-        "{{SCRIPTURE_REFERENCE}}": draft.get("scripture_reference", sermon["title"]),
-        "{{SERMON_DATE}}": sermon["date_display"],
-        "{{SERMONAUDIO_URL}}": sermon["sermonaudio_url"],
-        "{{CURRENT_YEAR}}": str(datetime.now(timezone.utc).year),
-    }
-    html = template_html
-    for token, value in replacements.items():
-        html = html.replace(token, value)
-    return html
-
-
 def run(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
     print("+", " ".join(cmd))
     return subprocess.run(cmd, check=True, **kwargs)
 
 
-def open_pull_request_for_sermon(sermon: dict, data: dict) -> None:
+def existing_transcript_slugs() -> set[str]:
+    if not os.path.isdir(TRANSCRIPTS_DIR):
+        return set()
+    return {
+        os.path.splitext(name)[0]
+        for name in os.listdir(TRANSCRIPTS_DIR)
+        if name.endswith(".txt")
+    }
+
+
+def write_transcript_file(sermon: dict, data: dict, claimed_slugs: set[str]) -> str:
+    """Writes one sermon's transcript file into /transcripts and returns its slug."""
     base_slug = slugify(sermon["title"])
-    existing_slugs = {a.get("slug") for a in data["articles"]}
+    existing_slugs = (
+        {a.get("slug") for a in data["articles"]} | claimed_slugs | existing_transcript_slugs()
+    )
     slug = base_slug
     if slug in existing_slugs and sermon.get("date_iso"):
         slug = f"{base_slug}-{sermon['date_iso']}"
@@ -233,111 +219,112 @@ def open_pull_request_for_sermon(sermon: dict, data: dict) -> None:
         slug = f"{base_slug}-{suffix}"
         suffix += 1
 
-    with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
-        template_html = f.read()
+    transcript = fetch_transcript(sermon["sermon_id"])
 
-    example_path = os.path.join(
-        REPO_ROOT, "what-does-the-bible-say-about-the-parable-of-the-sower.html"
-    )
-    example_article_html = ""
-    if os.path.exists(example_path):
-        with open(example_path, "r", encoding="utf-8") as f:
-            example_article_html = f.read()
+    os.makedirs(TRANSCRIPTS_DIR, exist_ok=True)
+    transcript_path = os.path.join(TRANSCRIPTS_DIR, f"{slug}.txt")
 
-    draft = draft_article_with_claude(sermon, template_html, example_article_html)
-    article_html = render_article_html(template_html, sermon, slug, draft)
+    header_lines = [
+        f"SERMON_TITLE: {sermon['title']}",
+        f"SERIES: {sermon['series'] or 'Not specified'}",
+        f"DATE_PREACHED: {sermon['date_display']}",
+        f"SERMONAUDIO_URL: {sermon['sermonaudio_url']}",
+        f"SLUG: {slug}",
+        f"DATE_ISO: {sermon['date_iso']}",
+        f"GUID: {sermon['guid']}",
+        "---",
+        "",
+    ]
+    if transcript["available"]:
+        body_text = transcript["text"]
+    else:
+        body_text = (
+            f"(No transcript available from SermonAudio: {transcript['note']}\n"
+            "Write the article from the sermon title, scripture, and series above, "
+            "grounded in the passage itself — do not invent quotes or claims about "
+            "what was specifically said.)"
+        )
 
-    branch = f"new-article/{slug}"
-    run(["git", "config", "user.name", "sermon-article-bot"])
-    run(["git", "config", "user.email", "actions@users.noreply.github.com"])
-    run(["git", "checkout", "-b", branch])
+    with open(transcript_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(header_lines) + body_text)
 
-    article_path = os.path.join(REPO_ROOT, f"{slug}.html")
-    with open(article_path, "w", encoding="utf-8") as f:
-        f.write(article_html)
-
-    data["articles"].append(
-        {
-            "slug": slug,
-            "title": draft["article_title"],
-            "scripture": draft.get("scripture_reference", sermon["title"]),
-            "date": sermon["date_iso"],
-            "date_display": sermon["date_display"],
-            "sermonaudio_url": sermon["sermonaudio_url"],
-            "guid": sermon["guid"],
-        }
-    )
-    save_articles_data(data)
-    rebuild_index(data)
-
-    run(["git", "add", f"{slug}.html", "articles-data.json", "index.html"])
-    run(["git", "commit", "-m", f"New sermon article: {draft['article_title']}"])
-    run(["git", "push", "-u", "origin", branch])
-
-    has_description = bool(sermon["description"].strip())
-    review_note = (
-        "This sermon had no written description in the feed, so the article was written "
-        "directly from the scripture passage, title, and series — please read closely to confirm "
-        "it reflects what you actually preached."
-        if not has_description
-        else "This sermon included a written description, which was used as source material for the draft."
-    )
-
-    pr_body = f"""A new sermon was found on the SermonAudio feed: **{sermon['title']}** ({sermon['date_display']}).
-
-An AI-drafted article is attached for your review. Nothing is published until you merge this pull request.
-
-**{review_note}**
-
-- Draft title: {draft['article_title']}
-- Scripture: {draft.get('scripture_reference', sermon['title'])}
-- Listen: {sermon['sermonaudio_url']}
-
-To publish: click **Merge pull request**. To request changes: leave a comment. To skip this sermon: click **Close pull request**.
-"""
-
-    run(
-        [
-            "gh",
-            "pr",
-            "create",
-            "--title",
-            f"New article: {draft['article_title']}",
-            "--body",
-            pr_body,
-            "--base",
-            "main",
-            "--head",
-            branch,
-        ]
-    )
-
-    run(["git", "checkout", "main"])
+    run(["git", "add", transcript_path])
+    return slug
 
 
 def main() -> None:
+    print(f"Fetching feed: {FEED_URL}")
     sermons = fetch_feed()
+    print(f"Feed returned {len(sermons)} sermon(s).")
+
     data = load_articles_data()
+    print(f"articles-data.json currently lists {len(data['articles'])} known article(s).")
+
     known_guids = {a.get("guid") for a in data["articles"] if a.get("guid")}
     known_urls = {a.get("sermonaudio_url") for a in data["articles"] if a.get("sermonaudio_url")}
+
+    if not sermons:
+        print(
+            "The feed came back empty. This usually means SermonAudio's feed is "
+            "temporarily unreachable or its format changed — nothing was skipped, "
+            "there was simply nothing to read. Try running this workflow again by hand "
+            "in a few minutes; if it keeps happening, see the setup guide's "
+            "troubleshooting section."
+        )
+        return
 
     new_sermons = [
         s for s in sermons if s["guid"] not in known_guids and s["sermonaudio_url"] not in known_urls
     ]
 
     if not new_sermons:
-        print("No new sermons found. Nothing to do.")
+        print("No new sermons found beyond what's already in articles-data.json. Nothing to do.")
         return
 
-    print(f"Found {len(new_sermons)} new sermon(s). Drafting articles...")
+    is_first_run = len(data["articles"]) <= 1
+    if is_first_run and len(new_sermons) > MAX_TRANSCRIPTS_PER_RUN:
+        print(
+            f"This looks like a first run: articles-data.json only has "
+            f"{len(data['articles'])} known article(s), but the feed has "
+            f"{len(new_sermons)} sermon(s) without one yet. Rather than writing "
+            f"{len(new_sermons)} transcript files at once, this run will write the "
+            f"{MAX_TRANSCRIPTS_PER_RUN} oldest ones first, so the scheduled article-writing "
+            "task has a manageable batch to work through. Run this workflow again (or "
+            "wait for tomorrow's scheduled run) to work through the rest a few at a time."
+        )
+        new_sermons = sorted(new_sermons, key=lambda s: s.get("date_iso", ""))[:MAX_TRANSCRIPTS_PER_RUN]
+
+    run(["git", "config", "user.name", "sermon-article-bot"])
+    run(["git", "config", "user.email", "actions@users.noreply.github.com"])
+
+    print(f"Writing transcript files for {len(new_sermons)} sermon(s)...")
+    written = 0
+    claimed_slugs: set[str] = set()
+    written_titles: list[str] = []
     for sermon in new_sermons:
         try:
-            print(f"Drafting: {sermon['title']}")
-            open_pull_request_for_sermon(sermon, data)
+            print(f"Fetching transcript for: {sermon['title']}")
+            slug = write_transcript_file(sermon, data, claimed_slugs)
+            claimed_slugs.add(slug)
+            written_titles.append(f"{sermon['title']} -> transcripts/{slug}.txt")
+            written += 1
         except Exception as exc:  # noqa: BLE001
-            print(f"Failed to draft article for '{sermon['title']}': {exc}", file=sys.stderr)
-            run(["git", "checkout", "main"])
+            print(f"Failed to write transcript for '{sermon['title']}': {exc}", file=sys.stderr)
             continue
+
+    if written == 0:
+        print("No transcript files were written this run.")
+        return
+
+    commit_message = "New sermon transcript(s): " + "; ".join(
+        sermon["title"] for sermon in new_sermons[:written]
+    )
+    run(["git", "commit", "-m", commit_message])
+    run(["git", "push"])
+
+    print(f"Done. Committed {written} transcript file(s) to /transcripts on main:")
+    for line in written_titles:
+        print(f"  - {line}")
 
 
 if __name__ == "__main__":
