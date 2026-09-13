@@ -13,3 +13,10 @@
 # does that rewrite for every article automatically — you never need to
 # add a line here for a new article.
 /*.html   /articles/:splat.html   200
+
+# Article links are also reachable without the .html extension, e.g.
+# https://sermons.wordandhope.com/some-article instead of
+# https://sermons.wordandhope.com/some-article.html. This rule rewrites
+# any extensionless top-level path to its article file automatically —
+# you never need to add a line here for a new article.
+/*   /articles/:splat.html   200
