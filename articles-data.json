@@ -1,6 +1,19 @@
 {
   "articles": [
     {
+      "slug": "psalm-51",
+      "title": "What Does the Bible Say About Confessing Sin? Psalm 51",
+      "scripture": "Psalm 51",
+      "date": "2025-11-09",
+      "date_display": "November 9, 2025",
+      "sermonaudio_url": "https://www.sermonaudio.com/sermons/119251654112291",
+      "topic": "Psalms",
+      "excerpt": "David didn't see the problem with his own behavior until Nathan the prophet confronted him. Psalm 51 and what it looks like to pray when we've fallen.",
+      "verse_quote": "Have mercy on me, O God, according to your steadfast love; according to your abundant mercy blot out my transgressions.",
+      "verse_ref": "Psalm 51:1",
+      "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=80"
+    },
+    {
       "slug": "psalm-145",
       "title": "What Does the Bible Say About How to Pray? Psalm 145",
       "scripture": "Psalm 145",
