@@ -1,0 +1,7 @@
+# This file tells Netlify how to handle old or moved links so they never
+# just "break." You don't need to edit this by hand — if an article is ever
+# renamed, add a line here in the form:
+#   /old-address.html   /new-address.html   301
+#
+# Example (kept here as a template, not an active redirect):
+# /old-slug-example.html   /new-slug-example.html   301
