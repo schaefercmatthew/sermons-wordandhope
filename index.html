@@ -594,9 +594,21 @@
   .topic-chip{
     font-size: 14px;
     color: #e8dccb;
+    background: transparent;
     border: 1px solid #45392e;
     padding: 10px 18px;
     border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .topic-chip:hover{
+    border-color: #8a3324;
+  }
+  .topic-chip.is-active{
+    background: #8a3324;
+    border-color: #8a3324;
+    color: #fff;
   }
 
   /* ---------- Newsletter / CTA band ---------- */
@@ -784,7 +796,7 @@
 
       <div class="article-grid">
 
-        <a class="article-card" href="/psalm-29.html">
+        <a class="article-card" href="/psalm-29.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?auto=format&fit=crop&w=900&q=80" alt="What Is Your Baal? Psalm 29 on Idols and God's Glory" loading="lazy" width="900" height="563">
           </div>
@@ -800,7 +812,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalms-90-1-17.html">
+        <a class="article-card" href="/psalms-90-1-17.html" data-tags="Christian Living, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Numbering Our Days? Psalm 90" loading="lazy" width="900" height="563">
           </div>
@@ -816,7 +828,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-23.html">
+        <a class="article-card" href="/psalm-23.html" data-tags="Suffering &amp; Providence, Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?auto=format&fit=crop&w=900&q=80" alt="Psalm 23 Doesn't Promise an Easy Life — It Promises a Shepherd" loading="lazy" width="900" height="563">
           </div>
@@ -832,7 +844,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-36-1-12.html">
+        <a class="article-card" href="/psalm-36-1-12.html" data-tags="Sin &amp; Repentance, Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=80" alt="Two Hearts, Side by Side: Psalm 36 on Deceit and Steadfast Love" loading="lazy" width="900" height="563">
           </div>
@@ -848,7 +860,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-19.html">
+        <a class="article-card" href="/psalm-19.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Creation and Scripture? Psalm 19" loading="lazy" width="900" height="563">
           </div>
@@ -864,7 +876,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-13-1-6.html">
+        <a class="article-card" href="/psalm-13-1-6.html" data-tags="Prayer, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1494548162494-384bba4ab999?auto=format&fit=crop&w=900&q=80" alt="How Long, O Lord? What Psalm 13 Teaches About Waiting on God" loading="lazy" width="900" height="563">
           </div>
@@ -880,7 +892,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/luke-12-16-21.html">
+        <a class="article-card" href="/luke-12-16-21.html" data-tags="The Parables of Jesus, The Gospels">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=900&q=80" alt="The Rich Fool's Real Sin: Luke 12 on Owning vs. Stewarding" loading="lazy" width="900" height="563">
           </div>
@@ -896,7 +908,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-63.html">
+        <a class="article-card" href="/psalm-63.html" data-tags="Prayer, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1509266272358-7701da638078?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Spiritual Thirst? Psalm 63" loading="lazy" width="900" height="563">
           </div>
@@ -912,7 +924,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-119-9-16.html">
+        <a class="article-card" href="/psalm-119-9-16.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=900&q=80" alt="Psalm 119:9-16 Isn't About You — It's About Christ" loading="lazy" width="900" height="563">
           </div>
@@ -928,7 +940,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-137.html">
+        <a class="article-card" href="/psalm-137.html" data-tags="Prayer, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80" alt="The Most Shocking Prayer in the Bible: Psalm 137" loading="lazy" width="900" height="563">
           </div>
@@ -944,7 +956,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-107.html">
+        <a class="article-card" href="/psalm-107.html" data-tags="Prayer, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Giving Thanks? Psalm 107" loading="lazy" width="900" height="563">
           </div>
@@ -960,7 +972,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-42-43.html">
+        <a class="article-card" href="/psalm-42-43.html" data-tags="Prayer, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1439246854758-f686a415d9da?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Feeling Distant From God? Psalm 42-43" loading="lazy" width="900" height="563">
           </div>
@@ -976,7 +988,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-51.html">
+        <a class="article-card" href="/psalm-51.html" data-tags="Sin &amp; Repentance, Prayer">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Confessing Sin? Psalm 51" loading="lazy" width="900" height="563">
           </div>
@@ -992,7 +1004,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-145.html">
+        <a class="article-card" href="/psalm-145.html" data-tags="Prayer">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80" alt="Prayer Starts With Praise: Psalm 145" loading="lazy" width="900" height="563">
           </div>
@@ -1008,7 +1020,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians.html">
+        <a class="article-card" href="/philippians.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1552083375-1447ce886485?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Joy in Christ? The Book of Philippians" loading="lazy" width="900" height="563">
           </div>
@@ -1024,7 +1036,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-4-10-23.html">
+        <a class="article-card" href="/philippians-4-10-23.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Contentment? Philippians 4:10-23" loading="lazy" width="900" height="563">
           </div>
@@ -1040,7 +1052,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-4-6-9-part-2.html">
+        <a class="article-card" href="/philippians-4-6-9-part-2.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1440342359743-84fcb8c21f21?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Renewing Your Mind? Philippians 4:8-9" loading="lazy" width="900" height="563">
           </div>
@@ -1056,7 +1068,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-4-6-9.html">
+        <a class="article-card" href="/philippians-4-6-9.html" data-tags="Prayer, Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Anxiety? Philippians 4:6-7" loading="lazy" width="900" height="563">
           </div>
@@ -1072,7 +1084,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-4-1-5.html">
+        <a class="article-card" href="/philippians-4-1-5.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1454982523318-4b6396f39d3a?auto=format&fit=crop&w=900&q=80" alt="Why Standing Firm in Philippians 4 Starts With 'The Lord Is Near'" loading="lazy" width="900" height="563">
           </div>
@@ -1088,7 +1100,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-3-17-21.html">
+        <a class="article-card" href="/philippians-3-17-21.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?auto=format&fit=crop&w=900&q=80" alt="Who Are You Actually Imitating? Philippians 3:17-21" loading="lazy" width="900" height="563">
           </div>
@@ -1104,7 +1116,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-3-12-16.html">
+        <a class="article-card" href="/philippians-3-12-16.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Pressing On? Philippians 3:12-16" loading="lazy" width="900" height="563">
           </div>
@@ -1120,7 +1132,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-3-8-11.html">
+        <a class="article-card" href="/philippians-3-8-11.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1580519542036-c47de6196ba5?auto=format&fit=crop&w=900&q=80" alt="Everything Else Is Rubbish: Paul on Knowing Christ" loading="lazy" width="900" height="563">
           </div>
@@ -1136,7 +1148,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-3-1-7.html">
+        <a class="article-card" href="/philippians-3-1-7.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80" alt="Paul's Impressive Resume, and Why He Threw It Away" loading="lazy" width="900" height="563">
           </div>
@@ -1152,7 +1164,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-2-19-24.html">
+        <a class="article-card" href="/philippians-2-19-24.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=900&q=80" alt="Timothy, the Man Who Didn't Look Out for Himself" loading="lazy" width="900" height="563">
           </div>
@@ -1168,7 +1180,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-2-5-11.html">
+        <a class="article-card" href="/philippians-2-5-11.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About the Humility of Christ? Philippians 2:5-11" loading="lazy" width="900" height="563">
           </div>
@@ -1184,7 +1196,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/philippians-1-1-2.html">
+        <a class="article-card" href="/philippians-1-1-2.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1518622358385-8ea7d0794bf6?auto=format&fit=crop&w=900&q=80" alt="What Philippians 1:1-2 Packs Into a Greeting" loading="lazy" width="900" height="563">
           </div>
@@ -1200,7 +1212,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/1-samuel-26.html">
+        <a class="article-card" href="/1-samuel-26.html" data-tags="Old Testament Narrative, Sin &amp; Repentance">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1475483768296-6163e08872a1?auto=format&fit=crop&w=900&q=80" alt="Which Saul Are You? 1 Samuel 26 on Mercy and Repeated Sin" loading="lazy" width="900" height="563">
           </div>
@@ -1216,7 +1228,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/1-samuel-23.html">
+        <a class="article-card" href="/1-samuel-23.html" data-tags="Old Testament Narrative, Suffering &amp; Providence">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Being Rejected for Doing Good? 1 Samuel 23" loading="lazy" width="900" height="563">
           </div>
@@ -1232,7 +1244,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/1-samuel-15-1-15-35.html">
+        <a class="article-card" href="/1-samuel-15-1-15-35.html" data-tags="Old Testament Narrative, Sin &amp; Repentance">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Partial Obedience? Lessons from Saul and the Amalekites" loading="lazy" width="900" height="563">
           </div>
@@ -1248,7 +1260,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/psalm-1.html">
+        <a class="article-card" href="/psalm-1.html" data-tags="Christian Living">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80" alt="Psalm 1: The Blessed Man, the Wicked Man, and You" loading="lazy" width="900" height="563">
           </div>
@@ -1264,7 +1276,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/what-does-the-bible-say-about-the-parable-of-the-sower.html">
+        <a class="article-card" href="/what-does-the-bible-say-about-the-parable-of-the-sower.html" data-tags="The Parables of Jesus, The Gospels">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About the Parable of the Sower?" loading="lazy" width="900" height="563">
           </div>
@@ -1280,7 +1292,7 @@
           </div>
         </a>
 
-        <a class="article-card" href="/the-seventh-commandment.html">
+        <a class="article-card" href="/the-seventh-commandment.html" data-tags="Marriage &amp; Family, Sin &amp; Repentance">
           <div class="card-media">
             <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=900&q=80" alt="What Does the Bible Say About Adultery and the Seventh Commandment?" loading="lazy" width="900" height="563">
           </div>
@@ -1306,15 +1318,15 @@
         <h2>What we write about</h2>
         <p>The library is organized around real categories of Bible questions, not just recent posts.</p>
       </div>
-      <div class="topic-list">
-        <span class="topic-chip">The Parables of Jesus</span>
-        <span class="topic-chip">Suffering &amp; Providence</span>
-        <span class="topic-chip">Marriage &amp; Family</span>
-        <span class="topic-chip">Prayer</span>
-        <span class="topic-chip">Sin &amp; Repentance</span>
-        <span class="topic-chip">The Gospels</span>
-        <span class="topic-chip">Old Testament Narrative</span>
-        <span class="topic-chip">Christian Living</span>
+      <div class="topic-list" id="topic-list">
+        <button type="button" class="topic-chip" data-filter="The Parables of Jesus">The Parables of Jesus</button>
+        <button type="button" class="topic-chip" data-filter="Suffering &amp; Providence">Suffering &amp; Providence</button>
+        <button type="button" class="topic-chip" data-filter="Marriage &amp; Family">Marriage &amp; Family</button>
+        <button type="button" class="topic-chip" data-filter="Prayer">Prayer</button>
+        <button type="button" class="topic-chip" data-filter="Sin &amp; Repentance">Sin &amp; Repentance</button>
+        <button type="button" class="topic-chip" data-filter="The Gospels">The Gospels</button>
+        <button type="button" class="topic-chip" data-filter="Old Testament Narrative">Old Testament Narrative</button>
+        <button type="button" class="topic-chip" data-filter="Christian Living">Christian Living</button>
       </div>
     </div>
   </section>
@@ -1341,7 +1353,7 @@
     <div class="foot-grid">
       <div>
         <h2>Word and Hope</h2>
-        <p class="foot-desc">Free biblical counseling and a growing library of Bible articles from First Baptist Church of Wellston &mdash; written to be read slowly, and lived out even more slowly.</p>
+        <p class="foot-desc">Free biblical counseling and a growing library of Bible articles &mdash; written to be read slowly, and lived out even more slowly.</p>
         <p class="foot-contact">Questions? Email: <a href="mailto:matthew@wordandhope.com">matthew@wordandhope.com</a></p>
       </div>
       <div class="foot-col">
@@ -1384,6 +1396,34 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     targets.forEach(function (el) { io.observe(el); });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('.topic-chip[data-filter]');
+    var cards = document.querySelectorAll('.article-card[data-tags]');
+    var activeFilter = null;
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filter = btn.getAttribute('data-filter');
+        if (activeFilter === filter) {
+          activeFilter = null;
+        } else {
+          activeFilter = filter;
+        }
+        buttons.forEach(function (b) {
+          b.classList.toggle('is-active', b.getAttribute('data-filter') === activeFilter);
+        });
+        cards.forEach(function (card) {
+          if (!activeFilter) {
+            card.style.display = '';
+            return;
+          }
+          var tags = card.getAttribute('data-tags').split(',').map(function (t) { return t.trim(); });
+          card.style.display = tags.indexOf(activeFilter) !== -1 ? '' : 'none';
+        });
+      });
+    });
   });
 </script>
 
