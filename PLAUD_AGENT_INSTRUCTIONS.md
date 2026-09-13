@@ -81,6 +81,7 @@ GET https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/a
 | `{{HERO_IMAGE_ALT}}` | A short, accurate plain-text description of that image |
 | `{{HERO_CAPTION}}` | A short caption relating the image to the article's theme, in the same understated style as the example article's caption |
 | `{{KICKER}}` | A short category label in small caps style, e.g. the series name if there is one, otherwise something like "From the Sermon" — this also becomes the article's `topic` used on the homepage card (Step 7) |
+| `{{TOPIC_TAGS}}` | One or more of the fixed filter categories listed in Step 7's "Assign topic tags" note, comma-separated if more than one applies — this becomes the homepage card's `data-tags` attribute (Step 7.5) |
 | `{{DECK}}` | A one- or two-sentence subheading beneath the title, expanding on the title — keep it under 200 characters, since it is reused verbatim as the homepage card's excerpt (Step 7) |
 | `{{ARTICLE_BODY_HTML}}` | The full body you wrote per the rules above. Its first `<section>` must contain a `<blockquote class="verse">` with a `<p>` (the quoted verse text) and a `<cite>` (the reference) — this becomes the homepage card's featured verse (Step 7) |
 | `{{SERMON_TITLE}}` | The exact `SERMON_TITLE:` value from the transcript header |
@@ -111,13 +112,26 @@ If a file already exists at that path (this would only happen if you are re-runn
 
 ## Step 7 — Update articles-data.json (the article index)
 
+**Assign topic tags.** Before you build the JSON entry, decide which of the homepage's fixed filter categories this article belongs to, based on what the article is actually about (not the series name or book title alone). The categories, exactly as they must be spelled, are:
+```
+The Parables of Jesus
+Suffering & Providence
+Marriage & Family
+Prayer
+Sin & Repentance
+The Gospels
+Old Testament Narrative
+Christian Living
+```
+Pick every category that genuinely fits — most articles fit one, some genuinely fit two (for example, a psalm of lament that is also a prayer for help fits both "Suffering & Providence" and "Prayer"). Do not force a fit and do not tag more than two categories. If nothing else fits, use "Christian Living" as the default. This list of categories is defined by the buttons in `index.html`'s "What we write about" section (see `CONTRIBUTING.md` for how that list can change) — if someone has added a new category button there since these instructions were written, use the current button list instead of the list above.
+
 Call:
 ```
 GET https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/articles-data.json
 ```
 Decode its base64 `content` field to get the JSON text, and note the response's `sha` field — you'll need it to save your change. The decoded JSON has this shape:
 ```json
-{ "articles": [ { "slug": "...", "title": "...", "scripture": "...", "date": "...", "date_display": "...", "sermonaudio_url": "...", "topic": "...", "excerpt": "...", "verse_quote": "...", "verse_ref": "...", "image": "..." }, ... ] }
+{ "articles": [ { "slug": "...", "title": "...", "scripture": "...", "date": "...", "date_display": "...", "sermonaudio_url": "...", "topic": "...", "tags": "...", "excerpt": "...", "verse_quote": "...", "verse_ref": "...", "image": "..." }, ... ] }
 ```
 Add a new entry to the `articles` list:
 ```json
@@ -129,6 +143,7 @@ Add a new entry to the `articles` list:
   "date_display": "<the DATE_PREACHED value from the transcript header>",
   "sermonaudio_url": "<the SERMONAUDIO_URL value from the transcript header>",
   "topic": "<the KICKER text you wrote, plain text, no HTML>",
+  "tags": "<the topic tag(s) you assigned above, comma-separated if more than one, e.g. \"Suffering & Providence, Prayer\">",
   "excerpt": "<the DECK text you wrote, plain text, no HTML, under 200 characters>",
   "verse_quote": "<the exact verse text from the first blockquote.verse in the article body, plain text, no surrounding quote marks>",
   "verse_ref": "<the exact reference from that same blockquote's <cite>, plain text>",
@@ -172,7 +187,7 @@ Decode its base64 `content` field, and note the response's `sha` field. Inside t
 
 Replace everything between that opening tag and its true matching closing `</div>` with one card per article now in `articles-data.json` (the version you just saved in Step 7), in the same newest-first order, each formatted exactly like this:
 ```html
-<a class="article-card" href="/<slug>.html">
+<a class="article-card" href="/<slug>.html" data-tags="<tags>">
   <div class="card-media">
     <img src="<image>" alt="<title>" loading="lazy" width="900" height="563">
   </div>
@@ -188,11 +203,11 @@ Replace everything between that opening tag and its true matching closing `</div
   </div>
 </a>
 ```
-Use each article's `slug`, `title`, `topic`, `excerpt`, `verse_quote`, `verse_ref`, and `image` fields from `articles-data.json` — do not invent or reformat them.
+Use each article's `slug`, `title`, `topic`, `tags`, `excerpt`, `verse_quote`, `verse_ref`, and `image` fields from `articles-data.json` — do not invent or reformat them. For `<tags>`, write the `tags` value exactly as stored, with any `&` written as `&amp;` (this is a plain HTML attribute, so ampersands must be escaped) — this is what makes the homepage's topic filter buttons find this card.
 
 Also update the hero's "Read the latest article" button (`<a href="..." class="btn btn-primary">Read the latest article</a>`) so its `href` points at `/<slug>.html` for the single newest article (the first one in the sorted list).
 
-Leave every other line in `index.html` (the `<head>`, styles, header, hero panel text, topics section, footer) exactly as it already is.
+Leave every other line in `index.html` (the `<head>`, styles, header, hero panel text, topics section, footer) exactly as it already is. If a maintainer has added or renamed a filter category by following `CONTRIBUTING.md`, the "topics section" now reflects that change — do not revert it.
 
 Base64-encode the full updated HTML, then call:
 ```
