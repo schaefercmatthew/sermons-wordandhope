@@ -3,10 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sermon Articles | Word and Hope</title>
-<meta name="description" content="Written articles based on sermons by Matthew Schaefer, Pastor of First Baptist Church of Wellston.">
+<title>Bible Articles &amp; Biblical Answers to Life's Questions | Word and Hope</title>
+<meta name="description" content="Straightforward, Bible-grounded articles answering the questions people actually bring into counseling — on the parables, on suffering, on marriage, on prayer. Written by Pastor Matthew Schaefer.">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Word and Hope">
+<meta property="og:title" content="Bible Articles &amp; Biblical Answers to Life's Questions | Word and Hope">
+<meta property="og:description" content="Straightforward, Bible-grounded articles answering the questions people actually bring into counseling — on the parables, on suffering, on marriage, on prayer.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop">
+<meta property="og:url" content="https://sermons.wordandhope.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bible Articles &amp; Biblical Answers to Life's Questions | Word and Hope">
+<meta name="twitter:description" content="Straightforward, Bible-grounded articles answering the questions people actually bring into counseling — on the parables, on suffering, on marriage, on prayer.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop">
+
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://sermons.wordandhope.com/">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Word and Hope — Bible Articles",
+  "description": "Straightforward, Bible-grounded articles answering the questions people actually bring into counseling.",
+  "url": "https://sermons.wordandhope.com/",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Word and Hope",
+    "url": "https://www.wordandhope.com"
+  },
+  "about": {
+    "@type": "Person",
+    "name": "Matthew Schaefer",
+    "jobTitle": "Pastor",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "First Baptist Church of Wellston"
+    }
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "url": "https://sermons.wordandhope.com/what-does-the-bible-say-about-the-parable-of-the-sower",
+        "name": "What Does the Bible Say About the Parable of the Sower?"
+      }
+    ]
+  }
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,78 +67,481 @@
     --paper-raised: #f3ecdf;
     --rule: #ddd2bd;
     --accent: #8a3324;
+    --accent-soft: #f6e6de;
   }
+
   *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
   body{
     margin:0;
     background: var(--paper);
     color: var(--ink);
     font-family: 'PT Serif', Georgia, serif;
     font-size: 18px;
-    line-height: 1.7;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
   }
-  a{ color: var(--accent); }
-  .wrap{ max-width: 900px; margin: 0 auto; padding: 0 24px; }
 
-  header.site{ padding: 22px 0; border-bottom: 1px solid var(--rule); }
-  .site-head-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  a{ color: var(--accent); text-decoration-thickness: 1px; }
+  a:hover{ text-decoration-thickness: 2px; }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Header ---------- */
+  header.site{
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .site-head-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
   .brand{
     font-family:'Marcellus', serif;
     font-size: 22px;
+    letter-spacing: 0.02em;
     color: var(--ink);
     text-decoration:none;
-    display:flex; align-items:center; gap:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
   .brand svg{ width:26px; height:26px; flex-shrink:0; }
-  nav.primary{ display:flex; gap:24px; font-size:15px; }
-  nav.primary a{ color: var(--ink-soft); text-decoration:none; }
-  nav.primary a:hover{ color: var(--accent); }
+  nav.primary{
+    display:flex;
+    gap: 28px;
+    font-size: 15px;
+    font-family: 'PT Serif', serif;
+    align-items: center;
+  }
+  nav.primary a{
+    color: var(--ink-soft);
+    text-decoration:none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  nav.primary a:hover{ color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-cta{
+    background: var(--ink);
+    color: var(--paper) !important;
+    padding: 9px 18px;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+  .nav-cta:hover{ background: var(--accent); border-bottom-color: transparent !important; }
 
-  .page-head{ max-width: 800px; margin: 64px auto 0; padding: 0 24px; }
-  h1{
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 84px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: end;
+  }
+  .hero-kicker{
+    font-family:'PT Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 18px;
+  }
+  .hero h1{
+    font-family:'Marcellus', serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 5.6vw, 4.2rem);
+    line-height: 1.08;
+    margin: 0 0 26px;
+    color: var(--ink);
+    max-width: 15ch;
+  }
+  .hero h1 em{
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero-lede{
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 30px;
+    max-width: 52ch;
+  }
+  .hero-actions{
+    display:flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 13px 26px;
+    border-radius: 3px;
+    font-size: 15px;
+    text-decoration:none;
+    font-family:'PT Serif', serif;
+  }
+  .btn-primary{
+    background: var(--accent);
+    color:#fff !important;
+  }
+  .btn-primary:hover{ background:#a2402e; }
+  .btn-ghost{
+    color: var(--ink) !important;
+    border: 1px solid var(--rule);
+  }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent) !important; }
+
+  .hero-panel{
+    background: var(--paper-raised);
+    border-radius: 4px;
+    padding: 32px 30px;
+    border-left: 3px solid var(--accent);
+  }
+  .hero-panel p.eyebrow{
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+  .hero-panel h2{
     font-family:'Marcellus', serif;
     font-weight:400;
-    font-size: clamp(2.2rem, 5vw, 3.2rem);
-    margin: 0 0 16px;
+    font-size: 1.5rem;
+    margin: 0 0 14px;
+    color: var(--ink);
   }
-  .page-head p{ font-size:19px; color: var(--ink-soft); max-width: 62ch; }
+  .hero-panel p{
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .hero-panel p:last-child{ margin-bottom: 0; }
+  .hero-panel .pastor-line{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .hero-panel .pastor-line strong{ color: var(--ink); }
 
-  ul.article-list{
-    list-style:none;
-    margin: 48px auto 100px;
-    padding: 0 24px;
-    max-width: 800px;
-    display:grid;
-    gap: 20px;
+  /* ---------- Section headers ---------- */
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap: 24px;
+    flex-wrap:wrap;
+    margin-bottom: 40px;
   }
-  ul.article-list li{
+  .section-head h2{
+    font-family:'Marcellus', serif;
+    font-weight:400;
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    margin:0;
+    color: var(--ink);
+  }
+  .section-head p{
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 42ch;
+    margin:0;
+    text-align: right;
+  }
+
+  /* ---------- Article library ---------- */
+  .library{
+    padding: 72px 0 8px;
+  }
+
+  .article-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .article-card{
+    display:flex;
+    flex-direction:column;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow:hidden;
+    text-decoration:none;
+    color: inherit;
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .article-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -18px rgba(36,31,26,0.35);
+    border-color: var(--accent);
+  }
+  .article-card:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .article-card .card-media{
+    aspect-ratio: 16/10;
+    overflow:hidden;
+    background: var(--paper-raised);
+  }
+  .article-card .card-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition: transform 400ms ease;
+  }
+  .article-card:hover .card-media img{ transform: scale(1.045); }
+  .article-card .card-body{
+    padding: 22px 24px 26px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .card-topic{
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  .article-card h3{
+    font-family:'Marcellus', serif;
+    font-weight:400;
+    font-size: 1.28rem;
+    line-height:1.32;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .card-excerpt{
+    font-size: 15.5px;
+    line-height:1.6;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+    flex:1;
+  }
+  .card-verse{
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+    padding-left: 12px;
+    border-left: 2px solid var(--rule);
+  }
+  .card-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+  .card-readmore{
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Coming-soon placeholders so the grid reads as a growing library, not one lonely card */
+  .article-card.is-placeholder{
+    background: var(--paper-raised);
+    border-style: dashed;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding: 40px 28px;
+    color: var(--ink-soft);
+  }
+  .article-card.is-placeholder:hover{
+    transform:none;
+    box-shadow:none;
+    border-color: var(--rule);
+  }
+  .article-card.is-placeholder .ph-mark{
+    font-family:'Marcellus', serif;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .article-card.is-placeholder p{
+    font-size: 14.5px;
+    margin:0;
+    max-width: 26ch;
+  }
+
+  /* ---------- Topic strip ---------- */
+  .topics{
+    margin-top: 88px;
+    background: var(--ink);
+    padding: 56px 0;
+  }
+  .topics .section-head h2{ color: var(--paper); }
+  .topics .section-head p{ color: #b8ac99; }
+  .topic-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 12px;
+  }
+  .topic-chip{
+    font-size: 14px;
+    color: #e8dccb;
+    border: 1px solid #45392e;
+    padding: 10px 18px;
+    border-radius: 30px;
+  }
+
+  /* ---------- Newsletter / CTA band ---------- */
+  .cta-band{
+    padding: 80px 0;
+  }
+  .cta-inner{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items:center;
     background: var(--paper-raised);
     border-radius: 6px;
-    padding: 26px 28px;
+    padding: 48px 52px;
   }
-  ul.article-list a.title{
+  .cta-inner h2{
     font-family:'Marcellus', serif;
-    font-size: 1.4rem;
+    font-weight:400;
+    font-size: clamp(1.7rem, 3vw, 2.1rem);
+    margin: 0 0 14px;
     color: var(--ink);
-    text-decoration:none;
-    display:block;
-    margin-bottom: 8px;
   }
-  ul.article-list a.title:hover{ color: var(--accent); }
-  ul.article-list .meta{ font-size: 14px; color: var(--ink-soft); }
-  .empty-note{ color: var(--ink-soft); font-style: italic; padding: 0 24px; }
+  .cta-inner p{
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin:0;
+    max-width: 46ch;
+  }
+  .cta-actions{
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+    align-items:flex-end;
+    text-align:right;
+  }
+  .cta-actions .btn{ width: max-content; }
+  .cta-actions span{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
 
+  /* ---------- Footer ---------- */
   footer.site{
+    margin-top: 20px;
     background: var(--ink);
     color: #cfc6b8;
-    padding: 48px 0;
-    margin-top: 60px;
+    padding: 56px 0 40px;
   }
-  footer.site .wrap{ font-size: 14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
-  footer.site a{ color: #e8b7a3; }
+  .foot-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+  }
+  footer.site h2{
+    font-family:'Marcellus', serif;
+    color: var(--paper);
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+  }
+  footer.site .foot-desc{
+    max-width: 44ch;
+    color:#b8ac99;
+    margin: 0 0 20px;
+    font-size:15px;
+  }
+  footer.site .foot-contact{
+    font-size: 15px;
+    color: var(--paper);
+  }
+  footer.site .foot-contact a{ color: #e8b7a3; }
+  .foot-col h3{
+    font-family:'PT Serif', serif;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8a7c68;
+    margin: 0 0 16px;
+  }
+  .foot-col ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+  }
+  .foot-col a{
+    color: #cfc6b8;
+    text-decoration:none;
+    font-size: 15px;
+  }
+  .foot-col a:hover{ color: var(--paper); text-decoration:underline; }
+  .foot-bottom{
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #45392e;
+    font-size: 13px;
+    color: #8a7c68;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 900px){
+    .hero-grid{ grid-template-columns: 1fr; gap: 40px; }
+    .hero-panel{ order: -1; }
+    .article-grid{ grid-template-columns: repeat(2, 1fr); }
+    .cta-inner{ grid-template-columns: 1fr; padding: 40px; }
+    .cta-actions{ align-items:flex-start; text-align:left; }
+    .foot-grid{ grid-template-columns: 1fr; gap: 32px; }
+    .section-head p{ text-align:left; }
+  }
 
   @media (max-width: 640px){
+    body{ font-size: 16.5px; }
     nav.primary{ display:none; }
+    .hero{ padding: 56px 0 44px; }
+    .hero h1{ max-width: none; }
+    .article-grid{ grid-template-columns: 1fr; }
+    .topics{ padding: 44px 0; }
+    .cta-inner{ padding: 32px 24px; }
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.is-visible{ opacity:1; transform:none; }
   }
 </style>
 </head>
@@ -99,67 +549,171 @@
 
 <header class="site">
   <div class="wrap site-head-row">
-    <a class="brand" href="/" aria-label="Word and Hope Sermon Articles home">
+    <a class="brand" href="/" aria-label="Word and Hope home">
       <svg viewBox="0 0 24 24" fill="none" role="img" aria-label="Word and Hope open book mark">
         <path d="M2 5.5c2.8-1.3 5.6-1.3 8 0v13c-2.4-1.3-5.2-1.3-8 0v-13Z" stroke="#8a3324" stroke-width="1.4" stroke-linejoin="round"/>
         <path d="M22 5.5c-2.8-1.3-5.6-1.3-8 0v13c2.4-1.3 5.2-1.3 8 0v-13Z" stroke="#8a3324" stroke-width="1.4" stroke-linejoin="round"/>
       </svg>
-      Word and Hope &middot; Sermon Articles
+      Word and Hope
     </a>
     <nav class="primary" aria-label="Primary">
-      <a href="/">All Articles</a>
-      <a href="https://www.wordandhope.com">Main Site</a>
-      <a href="https://www.wordandhope.com/contact">Contact</a>
+      <a href="/">Home</a>
+      <a href="/#library">Articles</a>
+      <a href="https://www.wordandhope.com" target="_blank" rel="noopener noreferrer">Counseling</a>
+      <a href="mailto:matthew@wordandhope.com" class="nav-cta">Ask a question</a>
     </nav>
   </div>
 </header>
 
-<div class="page-head">
-  <h1>Sermon Articles</h1>
-  <p>Written articles drawn from sermons preached by Matthew Schaefer at First Baptist Church of Wellston &mdash; each one paired with a link to listen to the full sermon on SermonAudio.</p>
-</div>
+<main>
 
-<ul class="article-list" id="article-list">
-  <li>
-    <a class="title" href="/philippians-2-5-11.html">What Does the Bible Say About the Humility of Christ? Philippians 2:5-11</a>
-    <span class="meta">Philippians 2:5-11 &middot; August 3, 2025</span>
-  </li>
-  <li>
-    <a class="title" href="/philippians-1-1-2.html">What Does the Bible Say About Christian Identity? Philippians 1:1-2</a>
-    <span class="meta">Philippians 1:1-2 &middot; June 22, 2025</span>
-  </li>
-  <li>
-    <a class="title" href="/1-samuel-26.html">What Does the Bible Say About Godly Grief vs. Worldly Grief? 1 Samuel 26</a>
-    <span class="meta">1 Samuel 26:1-25 &middot; May 18, 2025</span>
-  </li>
-  <li>
-    <a class="title" href="/1-samuel-23.html">What Does the Bible Say About Being Rejected for Doing Good? 1 Samuel 23</a>
-    <span class="meta">1 Samuel 23:1-29 &middot; April 27, 2025</span>
-  </li>
-  <li>
-    <a class="title" href="/1-samuel-15-1-15-35.html">What Does the Bible Say About Partial Obedience? Lessons from Saul and the Amalekites</a>
-    <span class="meta">1 Samuel 15:1-35 &middot; March 2, 2025</span>
-  </li>
-  <li>
-    <a class="title" href="/psalm-1.html">What Does Psalm 1 Mean? The Blessed Man, the Wicked Man, and You</a>
-    <span class="meta">Psalm 1:1-6 &middot; August 4, 2024</span>
-  </li>
-  <li>
-    <a class="title" href="/what-does-the-bible-say-about-the-parable-of-the-sower.html">What Does the Bible Say About the Parable of the Sower?</a>
-    <span class="meta">Mark 4:3-20 &middot; June 23, 2024</span>
-  </li>
-  <li>
-    <a class="title" href="/the-seventh-commandment.html">What Does the Bible Say About Adultery and the Seventh Commandment?</a>
-    <span class="meta">Exodus 20:14; Matthew 5:27-28 &middot; February 25, 2024</span>
-  </li>
-</ul>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="hero-kicker">Word and Hope &middot; Bible Articles</p>
+        <h1>Biblical answers to the questions people actually <em>bring into counseling.</em></h1>
+        <p class="hero-lede">Every article here starts with a real question someone brought to Pastor Matthew Schaefer — about a parable, a hard providence, a marriage, a besetting sin — and works through it slowly, straight from the text.</p>
+        <div class="hero-actions">
+          <a href="/what-does-the-bible-say-about-the-parable-of-the-sower" class="btn btn-primary">Read the latest article</a>
+          <a href="#library" class="btn btn-ghost">Browse the library</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <p class="eyebrow">Written by</p>
+        <h2>Matthew Schaefer</h2>
+        <p>Pastor at First Baptist Church of Wellston. He writes the way he counsels — plainly, from Scripture, without padding — because the people asking these questions deserve a straight answer, not a devotional.</p>
+        <div class="pastor-line">
+          <span>Every article is grounded in the text and <strong>free to read</strong>.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="library" id="library">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>The article library</h2>
+        <p>New articles are added regularly as real counseling questions turn into written answers.</p>
+      </div>
+
+      <div class="article-grid">
+
+        <a class="article-card" href="/what-does-the-bible-say-about-the-parable-of-the-sower">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=900&auto=format&fit=crop" alt="Sunlit rows of freshly turned farmland soil under an open sky" loading="lazy" width="900" height="563">
+          </div>
+          <div class="card-body">
+            <p class="card-topic">The Parables of Jesus</p>
+            <h3>What Does the Bible Say About the Parable of the Sower?</h3>
+            <p class="card-excerpt">Jesus told a story about a farmer, some seed, and four kinds of ground. It's also one of the most searching questions he ever put to a crowd: when the word of God lands on you, what kind of soil are you?</p>
+            <p class="card-verse">"A sower went out to sow." &mdash; Mark 4:3</p>
+            <div class="card-meta">
+              <span>Matthew Schaefer</span>
+              <span class="card-readmore">Read article &rarr;</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="article-card is-placeholder" aria-hidden="true">
+          <p class="ph-mark">A new article is on the way</p>
+          <p>This library grows regularly — check back soon for the next one.</p>
+        </div>
+
+        <div class="article-card is-placeholder" aria-hidden="true">
+          <p class="ph-mark">A new article is on the way</p>
+          <p>Have a question you'd like answered from Scripture? Write in below.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="topics">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What we write about</h2>
+        <p>The library is organized around real categories of Bible questions, not just recent posts.</p>
+      </div>
+      <div class="topic-list">
+        <span class="topic-chip">The Parables of Jesus</span>
+        <span class="topic-chip">Suffering &amp; Providence</span>
+        <span class="topic-chip">Marriage &amp; Family</span>
+        <span class="topic-chip">Prayer</span>
+        <span class="topic-chip">Sin &amp; Repentance</span>
+        <span class="topic-chip">The Gospels</span>
+        <span class="topic-chip">Old Testament Narrative</span>
+        <span class="topic-chip">Christian Living</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div class="cta-inner">
+        <div>
+          <h2>Have a Bible question you're wrestling with?</h2>
+          <p>Word and Hope offers free biblical counseling. If a question you're facing isn't answered in an article yet, ask it directly.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="mailto:matthew@wordandhope.com" class="btn btn-primary">Email Pastor Matthew</a>
+          <span>matthew@wordandhope.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Word and Hope</span>
-    <span><a href="mailto:matthew@wordandhope.com">matthew@wordandhope.com</a></span>
+    <div class="foot-grid">
+      <div>
+        <h2>Word and Hope</h2>
+        <p class="foot-desc">Free biblical counseling and a growing library of Bible articles from First Baptist Church of Wellston &mdash; written to be read slowly, and lived out even more slowly.</p>
+        <p class="foot-contact">Questions? Email: <a href="mailto:matthew@wordandhope.com">matthew@wordandhope.com</a></p>
+      </div>
+      <div class="foot-col">
+        <h3>Library</h3>
+        <ul>
+          <li><a href="/#library">All articles</a></li>
+          <li><a href="/what-does-the-bible-say-about-the-parable-of-the-sower">The Parable of the Sower</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h3>Word and Hope</h3>
+        <ul>
+          <li><a href="https://www.wordandhope.com" target="_blank" rel="noopener noreferrer">Biblical counseling</a></li>
+          <li><a href="mailto:matthew@wordandhope.com">Contact Pastor Matthew</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Word and Hope &middot; Matthew Schaefer, First Baptist Church of Wellston</span>
+      <span>Scripture quotations from the ESV&reg;</span>
+    </div>
   </div>
 </footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var targets = document.querySelectorAll('.article-card, .section-head, .cta-inner');
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('reveal', 'is-visible'); });
+      return;
+    }
+    targets.forEach(function (el) { el.classList.add('reveal'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  });
+</script>
 
 </body>
 </html>
