@@ -1,3 +1,8 @@
+# Fetches sermon transcripts and commits them to /transcripts. This workflow
+# never calls the Netlify API or a build hook, and must not start doing so:
+# transcript-only commits should not burn Netlify build minutes. Netlify's own
+# netlify.toml [build] ignore command is what skips the deploy for commits
+# that don't touch /articles/.
 name: Check for new sermons
 on:
   schedule:
