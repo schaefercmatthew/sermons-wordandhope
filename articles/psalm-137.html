@@ -197,12 +197,76 @@ section.author strong {
 @media (prefers-reduced-motion: reduce) {
   article.body section { opacity: 1; transform: none; transition: none; }
 }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem -2.5rem;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem 0;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; }
+}
 </style>
 </head>
 <body>
 <header class="site">
   <a href="/">Word &amp; Hope</a>
-  <a href="/">First Baptist Church of Wellston</a>
 </header>
 
 <div class="article-head">
@@ -221,13 +285,13 @@ section.author strong {
 
 <section>
 <h2>The Verses We'd Rather Skip</h2>
-<p>I've spent months asking people in our church about the imprecatory psalms — the psalms of cursing. My wife told me that Psalm 139 was particularly troubling to her as a child, and I understand why. It's a psalm full of some of Scripture's most beloved lines: "You have searched me and known me... you knitted me together in my mother's womb... I am fearfully and wonderfully made." And then, without warning, verse 19: "Oh, that you would slay the wicked, O God... I hate them with complete hatred." It takes you by surprise if you're not ready for it.</p>
+<p>I've spent months asking people about the imprecatory psalms — the psalms of cursing. My wife told me that Psalm 139 was particularly troubling to her as a child, and I understand why. It's a psalm full of some of Scripture's most beloved lines: "You have searched me and known me... you knitted me together in my mother's womb... I am fearfully and wonderfully made." And then, without warning, verse 19: "Oh, that you would slay the wicked, O God... I hate them with complete hatred." It takes you by surprise if you're not ready for it.</p>
 <p>I found advice online from a well-known pastor suggesting believers memorize all of Psalm 139 except verses 19-22, which he called "unhelpful." I want to say plainly: that is advice straight from the enemy. There are no unhelpful parts of Scripture. And practically speaking, you cannot skip these verses even if you wanted to — this kind of language is woven throughout the Psalms. The major imprecatory psalms alone number nearly twenty, and the language appears in dozens more.</p>
-<p>This morning we're looking at the most shocking lines in all of Scripture's imprecatory psalms — Psalm 137:8-9.</p>
+<p>Here we'll look at the most shocking lines in all of Scripture's imprecatory psalms — Psalm 137:8-9.</p>
 <blockquote class="verse">O daughter of Babylon, doomed to be destroyed, blessed shall he be who repays you with what you have done to us. Blessed shall he be who takes your little ones and dashes them against the rock.
 <cite>Psalm 137:8-9</cite>
 </blockquote>
-<p>This psalm was our call to worship earlier this year, and several people told me afterward how shocking it was to hear read aloud. Good. It's supposed to be jarring. But I want to show you today that this kind of prayer, rightly understood, is meant to be a comfort to God's people — a comfort rooted in his justice, his promises, and ultimately the cross.</p>
+<p>This psalm has been read aloud in worship gatherings, and people often say afterward how shocking it is to hear. Good. It's supposed to be jarring. But I want to show you that this kind of prayer, rightly understood, is meant to be a comfort to God's people — a comfort rooted in his justice, his promises, and ultimately the cross.</p>
 </section>
 
 <section>
@@ -237,23 +301,38 @@ section.author strong {
 <p><strong>Second, the psalmist doesn't invent this curse.</strong> God had already declared it. Isaiah 13:16 records the Lord's own words about Babylon's coming judgment: "Their infants will be dashed in pieces before their eyes." The psalmist isn't imagining the worst punishment he can dream up — he's asking God to keep the promise God already made. "Lord, do what you said you would do."</p>
 <p><strong>Third, these prayers only ever target the unjustly violent</strong> — not personal grudges, but those who prey on the innocent, the poor, and the defenseless. Habakkuk 1 describes Babylon as "a feared and dreaded people... a law to themselves," sweeping through nations and killing without restraint. These are not casual prayers against a casual enemy. They are prayers offered because, left unchecked, real innocents would keep dying.</p>
 </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?auto=format&fit=crop&w=900&q=80" alt="A moment of stillness before the text speaks." loading="lazy">
+<figcaption>A moment of stillness before the text speaks.</figcaption>
+</figure>
+
 
 <section>
 <h2>This Didn't End at the Cross</h2>
 <p>Some argue that Jesus came preaching love, so imprecatory prayer belonged only to the Old Testament. But the New Testament tells a different story. Jesus himself pronounces seven woes on the Pharisees in Matthew 23. Peter tells Simon the sorcerer, "May your silver perish with you" (Acts 8). Paul pronounces a double curse on anyone preaching a false gospel (Galatians 1:8-9) and prays that certain false teachers would "castrate themselves" (Galatians 5:12). Romans 11 quotes an imprecatory psalm outright: "Let their table become a snare... let their eyes be darkened." These prayers didn't stop at the resurrection.</p>
 <p>So yes — I believe it is not only appropriate but important for us to pray imprecatory prayers today. But we have to understand how to do it rightly. Jesus and the apostles also call us to love our enemies and refuse personal vengeance — that call isn't new to the New Testament either; the Old Testament already says vengeance belongs to God alone. Those two truths stand side by side. The call to love doesn't cancel the cry for justice. It redirects it — away from our own hands, and onto the throne of God.</p>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>Some argue that Jesus came preaching love, so imprecatory prayer belonged only to the Old Testament.</p>
+</div>
 </section>
 
+<hr class="section-divider">
 <section>
 <h2>Four Steps for Praying This Today</h2>
 <p><strong>First, always start by praying for your enemies' salvation.</strong> God can silence hatred by giving a new heart. He can crush an enemy's rebellion by making that enemy a brother. This is exactly what he did for us — we were his enemies, and he broke our pride by grace. If God's justice falls on someone through their salvation, every part of this psalm finds its highest fulfillment in redemption rather than destruction, and that is a miracle worth asking for.</p>
 <p><strong>Second, pray for God to judge those who refuse to repent.</strong> Scripture is clear that some hearts will not turn — Pharaoh hardened his own heart; Judas walked with Jesus and chose betrayal anyway. Sue Klebold, the mother of one of the Columbine shooters, wrote in her memoir that when she learned her son might be involved in the killing, her prayer changed: "the greatest mercy I could pray for was not my son's safety, but for his death." That is an agonizing prayer, and it is not personal revenge — it is a plea for God's justice and for the protection of the vulnerable.</p>
 <p><strong>Third, pray that God would restrain evil while we wait for his final justice.</strong> Babylon in Scripture becomes a picture of every system that sets itself against the Lord — idolatry, oppression, every ideology that feeds cruelty. We ask God to shut the mouths of modern lions the way he shut them for Daniel, to confuse the schemes of the wicked the way he confused the armies against Jehoshaphat.</p>
-<blockquote class="verse">He was pierced for our transgressions; he was crushed for our iniquities... and with his wounds we are healed.
+<blockquote class="verse-wide">He was pierced for our transgressions; he was crushed for our iniquities... and with his wounds we are healed.
 <cite>Isaiah 53:5</cite>
 </blockquote>
 <p><strong>Fourth, and most humbling — remember that we are the ones who deserve the rock.</strong> Our own rebellion and pride justly deserve God's judgment. That's what makes this psalm's ending so staggering good news: God did not leave us to face it. He sent his own Son to be dashed against the rock in our place. Where we deserved to be crushed, Christ was crushed instead.</p>
 </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=900&q=80" alt="The kind of ordinary scene Scripture keeps returning us to." loading="lazy">
+<figcaption>The kind of ordinary scene Scripture keeps returning us to.</figcaption>
+</figure>
+
 
 <section>
 <h2>Where the Stone That Struck Us Now Upholds Us</h2>
@@ -275,7 +354,6 @@ section.author strong {
 
 <footer class="site">
   <a href="/">&larr; Back to all articles</a>
-  <span>First Baptist Church of Wellston</span>
 </footer>
 
 <script>

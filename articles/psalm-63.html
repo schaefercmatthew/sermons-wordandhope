@@ -197,12 +197,76 @@ section.author strong {
 @media (prefers-reduced-motion: reduce) {
   article.body section { opacity: 1; transform: none; transition: none; }
 }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem -2.5rem;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem 0;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; }
+}
 </style>
 </head>
 <body>
 <header class="site">
   <a href="/">Word &amp; Hope</a>
-  <a href="/">First Baptist Church of Wellston</a>
 </header>
 
 <div class="article-head">
@@ -238,18 +302,33 @@ section.author strong {
 <section>
 <h2>Remembering Before You Feel It</h2>
 <p>Verse 2 says, "so I have looked upon you in the sanctuary, beholding your power and glory" — past tense. David isn't at the tabernacle; he's in the wilderness, remembering. This is the pattern for wilderness prayer: when we can't see God clearly in the present moment, we recall what he has already shown us. Remember his faithfulness to Abraham, his rescue of Israel from Egypt, his promise to David fulfilled in Christ. Memory becomes the anchor for present faith.</p>
-<blockquote class="verse">Because your steadfast love is better than life, my lips will praise you.
+<blockquote class="verse-wide">Because your steadfast love is better than life, my lips will praise you.
 <cite>Psalm 63:3</cite>
 </blockquote>
 <p>This is a value statement, not an emotional one — and that order matters. David doesn't say "I feel close to God, therefore I'll praise him." He says, in effect: I remember who you have proven yourself to be; therefore I trust you; therefore I will praise you. David isn't saying life is worthless — life is a real gift. He's saying that even the gift must never replace the Giver. If God were taken away, life would no longer be life. But if life were taken away, God would still be enough.</p>
 </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1439246854758-f686a415d9da?auto=format&fit=crop&w=900&q=80" alt="Something to sit with as the argument turns." loading="lazy">
+<figcaption>Something to sit with as the argument turns.</figcaption>
+</figure>
+
 
 <section>
 <h2>Satisfied Before the Circumstances Change</h2>
 <p>David commits himself in verses 4-6 to bless God, lift his hands, and be satisfied — while still in the wilderness, still undelivered, nothing about his circumstances resolved. This satisfaction isn't physical. It's the settled contentment of a soul anchored in God rather than in outcomes. It rests on Romans 8:28 — not some things, but all things work together for good for those who love God.</p>
 <p>Verse 6 mentions the night watches specifically — what we return to when we're alone with our thoughts reveals what matters most to us. William Plumer wrote, "Blessed is the man who has learned the art of not wasting precious hours in the night watches." Sleepless nights don't have to be wasted in frustration; they can become a rare gift of undistracted time to remember God's goodness and bring our requests to him.</p>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>David commits himself in verses 4-6 to bless God, lift his hands, and be satisfied — while still in the wilderness, still undelivered, nothing about his circumstances resolved.</p>
+</div>
 </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=900&q=80" alt="A pause, before the next section presses further in." loading="lazy">
+<figcaption>A pause, before the next section presses further in.</figcaption>
+</figure>
 
+
+<hr class="section-divider">
 <section>
 <h2>His Hand Holds You, Not the Other Way Around</h2>
 <p>Verses 7-8 use rich covenantal language: "in the shadow of your wings I will sing for joy... my soul clings to you." The image of wings recalls a mother bird sheltering her young, or the cherubim over the mercy seat — protection and nearness. And the word "clings" is the same word used of Ruth clinging to Naomi, and of a husband holding fast to his wife in Genesis 2:24. It describes not casual attachment but loyal, wholehearted devotion.</p>
@@ -277,7 +356,6 @@ section.author strong {
 
 <footer class="site">
   <a href="/">&larr; Back to all articles</a>
-  <span>First Baptist Church of Wellston</span>
 </footer>
 
 <script>

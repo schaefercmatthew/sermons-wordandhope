@@ -180,7 +180,7 @@ Replace everything between that opening tag and its true matching closing `</div
     <p class="card-topic"><topic></p>
     <h3><title></h3>
     <p class="card-excerpt"><excerpt></p>
-    <p class="card-verse">&ldquo;<verse_quote>&rdquo; &mdash; <verse_ref></p>
+    <p class="card-verse">&#8220;<verse_quote>&#8221; &mdash; <verse_ref></p>
     <div class="card-meta">
       <span>Matthew Schaefer</span>
       <span class="card-readmore">Read article &rarr;</span>
