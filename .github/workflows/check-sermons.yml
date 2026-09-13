@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 jobs:
-  check-and-fetch-transcripts:
+  fetch-transcripts:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -19,9 +19,7 @@ jobs:
           python-version: "3.11"
       - name: Install required packages
         run: pip install requests
-      - name: Look for new sermons and commit their transcripts
+      - name: Look for new sermons and save their transcripts
         env:
           SERMONAUDIO_API_KEY: ${{ secrets.SERMONAUDIO_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python scripts/generate_article.py
+        run: python scripts/fetch_transcripts.py
