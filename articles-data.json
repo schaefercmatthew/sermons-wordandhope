@@ -1,6 +1,19 @@
 {
   "articles": [
     {
+      "slug": "psalm-23",
+      "title": "What Does the Bible Say About God as Our Shepherd? Psalm 23",
+      "scripture": "Psalm 23",
+      "date": "2026-06-28",
+      "date_display": "June 28, 2026",
+      "sermonaudio_url": "https://www.sermonaudio.com/sermons/628261552162135",
+      "topic": "Christian Living",
+      "excerpt": "Psalm 23 doesn't promise an easy life. It promises something better: a shepherd who is with you in the green pastures and in the darkest valley alike.",
+      "verse_quote": "",
+      "verse_ref": "",
+      "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=80"
+    },
+    {
       "slug": "psalm-36-1-12",
       "title": "What Does the Bible Say About God's Steadfast Love? Psalm 36",
       "scripture": "Psalm 36:1-12",
