@@ -1,6 +1,19 @@
 {
   "articles": [
     {
+      "slug": "philippians",
+      "title": "What Does the Bible Say About Joy in Christ? The Book of Philippians",
+      "scripture": "Philippians 1-4",
+      "date": "2025-10-26",
+      "date_display": "October 26, 2025",
+      "sermonaudio_url": "https://www.sermonaudio.com/sermons/1026251546206549",
+      "topic": "Philippians",
+      "excerpt": "Stepping back from the phrase-by-phrase study to hear Philippians the way its first readers did &mdash; as one letter, read straight through, from a man in chains who could not stop rejoicing.",
+      "verse_quote": "Rejoice in the Lord always; again I will say, rejoice.",
+      "verse_ref": "Philippians 4:4",
+      "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=80"
+    },
+    {
       "slug": "philippians-4-10-23",
       "title": "What Does the Bible Say About Contentment? Philippians 4:10-23",
       "scripture": "Philippians 4:10-23",
