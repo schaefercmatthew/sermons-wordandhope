@@ -1,6 +1,19 @@
 {
   "articles": [
     {
+      "slug": "psalm-19",
+      "title": "What Does the Bible Say About Creation and Scripture? Psalm 19",
+      "scripture": "Psalm 19",
+      "date": "2026-04-19",
+      "date_display": "April 19, 2026",
+      "sermonaudio_url": "https://www.sermonaudio.com/sermons/419261556227627",
+      "topic": "Christian Living",
+      "excerpt": "Creation and Scripture are two witnesses telling the same story \u2014 and both leave us needing more than admiration. They leave us needing a Redeemer.",
+      "verse_quote": "",
+      "verse_ref": "",
+      "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=80"
+    },
+    {
       "slug": "psalm-13-1-6",
       "title": "What Does the Bible Say About How Long Suffering Lasts? Psalm 13",
       "scripture": "Psalm 13:1-6",
