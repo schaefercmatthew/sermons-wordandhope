@@ -64,6 +64,31 @@ header.site a, footer.site a {
   text-decoration: none;
   letter-spacing: 0.03em;
 }
+.top-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  font-family: 'Marcellus', serif;
+  font-size: 0.85rem;
+}
+.top-back-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: 30px;
+  padding: 0.35rem 0.9rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.top-back-link a:hover {
+  background: var(--accent);
+  color: var(--paper);
+}
 footer.site {
   border-top: 1px solid var(--rule);
   margin-top: 3rem;
@@ -275,6 +300,10 @@ hr.section-divider {
 <header class="site">
   <a href="/">Word &amp; Hope</a>
 </header>
+
+<div class="top-back-link">
+  <a href="/">&larr; All Articles</a>
+</div>
 
 <div class="article-head">
   <div class="kicker">Luke</div>

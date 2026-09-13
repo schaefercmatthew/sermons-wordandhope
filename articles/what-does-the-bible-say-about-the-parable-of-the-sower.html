@@ -135,6 +135,27 @@
 
   /* ---------- Article shell ---------- */
   main{ display:block; }
+  .top-back-link{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+    font-family: 'PT Serif', serif;
+    font-size: 14px;
+  }
+  .top-back-link a{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    border-radius: 30px;
+    padding: 7px 16px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .top-back-link a:hover{ background: var(--accent); color: var(--paper); }
+
+
 
   .article-head{
     max-width: 860px;
@@ -492,6 +513,10 @@ hr.section-divider {
 </header>
 
 <main>
+<div class="top-back-link">
+  <a href="/">&larr; All Articles</a>
+</div>
+
   <div class="article-head">
     <p class="kicker">Bible Topics &middot; The Parables of Jesus</p>
     <h1>One Seed, Four Soils: What the Parable of the Sower Reveals</h1>
