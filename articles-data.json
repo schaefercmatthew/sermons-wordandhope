@@ -1,6 +1,14 @@
 {
   "articles": [
     {
+      "slug": "psalm-1",
+      "title": "What Does Psalm 1 Mean? The Blessed Man, the Wicked Man, and You",
+      "scripture": "Psalm 1:1-6",
+      "date": "2024-08-04",
+      "date_display": "August 4, 2024",
+      "sermonaudio_url": "https://www.sermonaudio.com/sermons/8112421323263"
+    },
+    {
       "slug": "what-does-the-bible-say-about-the-parable-of-the-sower",
       "title": "What Does the Bible Say About the Parable of the Sower?",
       "scripture": "Mark 4:3-20",
