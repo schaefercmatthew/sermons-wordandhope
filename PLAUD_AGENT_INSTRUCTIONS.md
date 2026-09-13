@@ -80,9 +80,9 @@ GET https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/a
 | `{{HERO_IMAGE_URL}}` | `https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=1600&q=80` (reuse this same calm, neutral stock image for every article unless the user has told you otherwise) |
 | `{{HERO_IMAGE_ALT}}` | A short, accurate plain-text description of that image |
 | `{{HERO_CAPTION}}` | A short caption relating the image to the article's theme, in the same understated style as the example article's caption |
-| `{{KICKER}}` | A short category label in small caps style, e.g. the series name if there is one, otherwise something like "From the Sermon" |
-| `{{DECK}}` | A one- or two-sentence subheading beneath the title, expanding on the title |
-| `{{ARTICLE_BODY_HTML}}` | The full body you wrote per the rules above |
+| `{{KICKER}}` | A short category label in small caps style, e.g. the series name if there is one, otherwise something like "From the Sermon" — this also becomes the article's `topic` used on the homepage card (Step 7) |
+| `{{DECK}}` | A one- or two-sentence subheading beneath the title, expanding on the title — keep it under 200 characters, since it is reused verbatim as the homepage card's excerpt (Step 7) |
+| `{{ARTICLE_BODY_HTML}}` | The full body you wrote per the rules above. Its first `<section>` must contain a `<blockquote class="verse">` with a `<p>` (the quoted verse text) and a `<cite>` (the reference) — this becomes the homepage card's featured verse (Step 7) |
 | `{{SERMON_TITLE}}` | The exact `SERMON_TITLE:` value from the transcript header |
 | `{{SCRIPTURE_REFERENCE}}` | The Bible passage this sermon is from (state it plainly, e.g. "Mark 4:3–20") |
 | `{{SERMON_DATE}}` | The exact `DATE_PREACHED:` value from the transcript header |
@@ -107,6 +107,7 @@ with a JSON body:
   "branch": "main"
 }
 ```
+If a file already exists at that path (this would only happen if you are re-running a slug that was partially processed before), first `GET` that same path to read its current `sha`, and include `"sha": "<that sha>"` in the JSON body above — otherwise the request will fail.
 
 ## Step 7 — Update articles-data.json (the article index)
 
@@ -116,7 +117,7 @@ GET https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/a
 ```
 Decode its base64 `content` field to get the JSON text, and note the response's `sha` field — you'll need it to save your change. The decoded JSON has this shape:
 ```json
-{ "articles": [ { "slug": "...", "title": "...", "scripture": "...", "date": "...", "date_display": "...", "sermonaudio_url": "..." }, ... ] }
+{ "articles": [ { "slug": "...", "title": "...", "scripture": "...", "date": "...", "date_display": "...", "sermonaudio_url": "...", "topic": "...", "excerpt": "...", "verse_quote": "...", "verse_ref": "...", "image": "..." }, ... ] }
 ```
 Add a new entry to the `articles` list:
 ```json
@@ -126,9 +127,16 @@ Add a new entry to the `articles` list:
   "scripture": "<the SCRIPTURE_REFERENCE you wrote>",
   "date": "<the DATE_ISO value from the transcript header>",
   "date_display": "<the DATE_PREACHED value from the transcript header>",
-  "sermonaudio_url": "<the SERMONAUDIO_URL value from the transcript header>"
+  "sermonaudio_url": "<the SERMONAUDIO_URL value from the transcript header>",
+  "topic": "<the KICKER text you wrote, plain text, no HTML>",
+  "excerpt": "<the DECK text you wrote, plain text, no HTML, under 200 characters>",
+  "verse_quote": "<the exact verse text from the first blockquote.verse in the article body, plain text, no surrounding quote marks>",
+  "verse_ref": "<the exact reference from that same blockquote's <cite>, plain text>",
+  "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=80"
 }
 ```
+(The `image` field can reuse that same default URL for every article unless a more fitting stock photo is obviously warranted — keep it simple and consistent.)
+
 Sort the full `articles` list by `date` descending (newest first) — this order is what Step 7.5 will use to rebuild the homepage.
 
 Base64-encode the full updated JSON object (all existing articles plus this new one, sorted), then call:
@@ -146,28 +154,45 @@ with a JSON body:
 ```
 If this call fails because the `sha` doesn't match, someone else changed the file since you read it; re-fetch `articles-data.json`, re-apply just your new entry on top of the latest version, and try again once.
 
-## Step 7.5 — Rebuild the homepage's article list
+## Step 7.5 — Rebuild the homepage's article grid
 
-The homepage (`index.html`) is a plain, static HTML file — it has no code that reads `articles-data.json` on its own. You are the only thing that keeps its visible list in sync, so every time you update `articles-data.json` you must also rewrite the homepage's list to match.
+The homepage (`index.html`) is a plain, static HTML file — it has no code that reads `articles-data.json` on its own. You are the only thing that keeps its visible grid in sync, so every time you update `articles-data.json` you must also rewrite the homepage's grid to match.
 
 Call:
 ```
 GET https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/index.html
 ```
-Decode its base64 `content` field, and note the response's `sha` field. Inside the file, find this block (it will already contain one `<li>` per existing article):
+Decode its base64 `content` field, and note the response's `sha` field. Inside the file, find this block:
 ```html
-<ul class="article-list" id="article-list">
+<div class="article-grid">
   ...
-</ul>
+</div>
 ```
-Replace everything between `<ul class="article-list" id="article-list">` and its closing `</ul>` with one `<li>` for every article now in `articles-data.json` (the version you just saved in Step 7), in the same newest-first order, each formatted exactly like this:
+(Note: this `<div class="article-grid">` contains nested `<div>` elements inside each card — find its true matching closing `</div>` by counting nested opens/closes, not just the next `</div>` you see.)
+
+Replace everything between that opening tag and its true matching closing `</div>` with one card per article now in `articles-data.json` (the version you just saved in Step 7), in the same newest-first order, each formatted exactly like this:
 ```html
-  <li>
-    <a class="title" href="/<slug>.html"><title></a>
-    <span class="meta"><scripture> &middot; <date_display></span>
-  </li>
+<a class="article-card" href="/<slug>.html">
+  <div class="card-media">
+    <img src="<image>" alt="<title>" loading="lazy" width="900" height="563">
+  </div>
+  <div class="card-body">
+    <p class="card-topic"><topic></p>
+    <h3><title></h3>
+    <p class="card-excerpt"><excerpt></p>
+    <p class="card-verse">&ldquo;<verse_quote>&rdquo; &mdash; <verse_ref></p>
+    <div class="card-meta">
+      <span>Matthew Schaefer</span>
+      <span class="card-readmore">Read article &rarr;</span>
+    </div>
+  </div>
+</a>
 ```
-Use each article's `slug`, `title`, `scripture`, and `date_display` fields from `articles-data.json` — do not invent or reformat them. Leave every other line in `index.html` (the `<head>`, styles, header, page intro, and footer) exactly as it already is.
+Use each article's `slug`, `title`, `topic`, `excerpt`, `verse_quote`, `verse_ref`, and `image` fields from `articles-data.json` — do not invent or reformat them.
+
+Also update the hero's "Read the latest article" button (`<a href="..." class="btn btn-primary">Read the latest article</a>`) so its `href` points at `/<slug>.html` for the single newest article (the first one in the sorted list).
+
+Leave every other line in `index.html` (the `<head>`, styles, header, hero panel text, topics section, footer) exactly as it already is.
 
 Base64-encode the full updated HTML, then call:
 ```
