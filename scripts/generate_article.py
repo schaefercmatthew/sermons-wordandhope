@@ -205,6 +205,33 @@ def existing_transcript_slugs() -> set[str]:
     }
 
 
+def existing_transcript_sermons() -> tuple[set[str], set[str]]:
+    """Reads every transcript already written and returns the sermons they cover.
+
+    A transcript file already existing for a sermon means that sermon is not
+    "new" even though it has no article yet — otherwise every run would keep
+    re-fetching the same oldest sermons under new slugs (-2, -3, ...) forever
+    and never reach the rest of the backlog.
+    """
+    guids: set[str] = set()
+    urls: set[str] = set()
+    if not os.path.isdir(TRANSCRIPTS_DIR):
+        return guids, urls
+    for name in os.listdir(TRANSCRIPTS_DIR):
+        if not name.endswith(".txt"):
+            continue
+        path = os.path.join(TRANSCRIPTS_DIR, name)
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip() == "---":
+                    break
+                if line.startswith("SERMONAUDIO_URL: "):
+                    urls.add(line[len("SERMONAUDIO_URL: "):].strip())
+                elif line.startswith("GUID: "):
+                    guids.add(line[len("GUID: "):].strip())
+    return guids, urls
+
+
 def write_transcript_file(sermon: dict, data: dict, claimed_slugs: set[str]) -> str:
     """Writes one sermon's transcript file into /transcripts and returns its slug."""
     base_slug = slugify(sermon["title"])
@@ -262,6 +289,14 @@ def main() -> None:
 
     known_guids = {a.get("guid") for a in data["articles"] if a.get("guid")}
     known_urls = {a.get("sermonaudio_url") for a in data["articles"] if a.get("sermonaudio_url")}
+
+    transcript_guids, transcript_urls = existing_transcript_sermons()
+    known_guids |= transcript_guids
+    known_urls |= transcript_urls
+    print(
+        f"/transcripts already has files for {len(transcript_urls)} sermon(s); "
+        "those will be skipped even though they have no article yet."
+    )
 
     if not sermons:
         print(
