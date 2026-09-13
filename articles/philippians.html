@@ -61,6 +61,7 @@
 
   body{
     margin:0;
+    overflow-x: hidden;
     background: var(--paper);
     color: var(--ink);
     font-family: 'PT Serif', Georgia, serif;
@@ -131,7 +132,7 @@
   main{ display:block; }
 
   .article-head{
-    max-width: 800px;
+    max-width: 860px;
     margin: 64px auto 0;
     padding: 0 24px;
   }
@@ -179,7 +180,7 @@
     object-fit: cover;
   }
   figure.hero figcaption{
-    max-width: 800px;
+    max-width: 860px;
     margin: 14px auto 0;
     padding: 0 24px;
     font-size: 14px;
@@ -188,7 +189,7 @@
   }
 
   article.body{
-    max-width: 720px;
+    max-width: 780px;
     margin: 56px auto 0;
     padding: 0 24px 20px;
   }
@@ -283,7 +284,7 @@
   .listen-link:hover{ background:#a2402e; }
 
   section.author{
-    max-width: 720px;
+    max-width: 780px;
     margin: 40px auto 0;
     padding: 40px 24px 0;
     border-top: 1px solid var(--rule);
@@ -365,6 +366,76 @@
     }
     .reveal.is-visible{ opacity:1; transform:none; }
   }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1080px;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1020px;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; width: auto; max-width: none; }
+  figure.inline-img { margin: 2rem 0; width: auto; max-width: none; }
+}
 </style>
 </head>
 <body>
@@ -419,11 +490,16 @@
 
       <p>The word "joy" is hard to miss anywhere in this letter. Paul writes it from prison, in chains, likely facing execution &mdash; and he keeps rejoicing anyway. Not in his chains, not in the hardship itself, but in Christ. That's the heart of the whole letter: joy rooted not in what we have or what happens to us, but in the presence and power of God. It's a joy that sustains in suffering and strengthens in weakness, and it's available to every believer, not just the ones whose circumstances happen to be going well. So much of our happiness gets tied to comfort, success, or approval. Philippians keeps pointing back to the actual source of joy, which is Christ Himself, not our situation.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1440342359743-84fcb8c21f21?auto=format&fit=crop&w=900&q=80" alt="A moment of stillness before the text speaks." loading="lazy">
+<figcaption>A moment of stillness before the text speaks.</figcaption>
+</figure>
+
 
     <section>
       <h2>Humility Patterned After Christ</h2>
 
-      <blockquote class="verse">
+      <blockquote class="verse-wide">
         <p>"Have this mind among yourselves, which is yours in Christ Jesus, who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant... he humbled himself by becoming obedient to the point of death, even death on a cross."</p>
         <cite>Philippians 2:5-8</cite>
       </blockquote>
@@ -440,7 +516,11 @@
       </blockquote>
 
       <p>Paul knew both abundance and need, and he modeled a heart at peace in either, because he'd learned to fully rely on Christ. This isn't passive resignation &mdash; it's disciplined trust: trusting God to provide, to strengthen, to guide. Contentment, Philippians insists, is not a matter of circumstances. It's a matter of perspective, shaped by Christ. And perseverance comes the same way &mdash; keeping your eyes on Him, pressing toward the goal, refusing to give up when life is hard.</p>
-    </section>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>Paul knew both abundance and need, and he modeled a heart at peace in either, because he'd learned to fully rely on Christ.</p>
+</div>
+</section>
 
     <section>
       <h2>Christ Exalted Above All</h2>
@@ -449,8 +529,14 @@
 
       <p class="pull">Joy, humility, unity, contentment, and Christ's exaltation are not ideals to admire from afar. They are realities to live out.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1441716844725-09cedc13a4e7?auto=format&fit=crop&w=900&q=80" alt="The kind of ordinary scene Scripture keeps returning us to." loading="lazy">
+<figcaption>The kind of ordinary scene Scripture keeps returning us to.</figcaption>
+</figure>
 
-    <section>
+
+    <hr class="section-divider">
+<section>
       <h2>Read It as a Letter Again</h2>
 
       <p>Consider what it would look like to actually take Paul's words to heart: to rejoice in the Lord even when life is hard, to serve one another in humility and patience, to learn contentment regardless of circumstance, to keep Christ at the center of everything so that an ordinary life becomes a stage on which He is glorified. The God who sustained Paul in a Roman prison is the same God who sustains His people now. His grace was sufficient for every need then. It still is.</p>

@@ -61,6 +61,7 @@
 
   body{
     margin:0;
+    overflow-x: hidden;
     background: var(--paper);
     color: var(--ink);
     font-family: 'PT Serif', Georgia, serif;
@@ -131,7 +132,7 @@
   main{ display:block; }
 
   .article-head{
-    max-width: 800px;
+    max-width: 860px;
     margin: 64px auto 0;
     padding: 0 24px;
   }
@@ -179,7 +180,7 @@
     object-fit: cover;
   }
   figure.hero figcaption{
-    max-width: 800px;
+    max-width: 860px;
     margin: 14px auto 0;
     padding: 0 24px;
     font-size: 14px;
@@ -188,7 +189,7 @@
   }
 
   article.body{
-    max-width: 720px;
+    max-width: 780px;
     margin: 56px auto 0;
     padding: 0 24px 20px;
   }
@@ -283,7 +284,7 @@
   .listen-link:hover{ background:#a2402e; }
 
   section.author{
-    max-width: 720px;
+    max-width: 780px;
     margin: 40px auto 0;
     padding: 40px 24px 0;
     border-top: 1px solid var(--rule);
@@ -365,6 +366,76 @@
     }
     .reveal.is-visible{ opacity:1; transform:none; }
   }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1080px;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1020px;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; width: auto; max-width: none; }
+  figure.inline-img { margin: 2rem 0; width: auto; max-width: none; }
+}
 </style>
 </head>
 <body>
@@ -421,6 +492,11 @@
 
       <p>That word choice is doing deliberate work, because it's the exact opposite of what happened in the garden. Adam was offered the chance to be like God, and he reached for it &mdash; grasping at the fruit, trying to seize equality with God by his own power rather than submit to God's rule. That grasping was pride and rebellion, and it broke fellowship with God for the whole human race. We follow the same pattern more often than we'd like to admit: wanting authority without submission, wanting to redefine morality to suit our own feelings rather than submit to Scripture, resisting suffering as though any hardship is a violation of our rights. Every one of those is Adam's same old sin in new clothing &mdash; grasping at a status that was never ours to take. Jesus, by contrast, held His divine glory with open hands and let it go, freely, for people who kept grasping at what wasn't theirs.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?auto=format&fit=crop&w=900&q=80" alt="The kind of ordinary scene Scripture keeps returning us to." loading="lazy">
+<figcaption>The kind of ordinary scene Scripture keeps returning us to.</figcaption>
+</figure>
+
 
     <section>
       <h2>He Emptied Himself &mdash; By Addition, Not Subtraction</h2>
@@ -439,15 +515,25 @@
 
       <p>The humility doesn't stop at the incarnation. Verse eight goes lower still: "being found in human form, he humbled himself by becoming obedient to the point of death, even death on a cross." This wasn't forced on Him and it wasn't an accident. Jesus said plainly that no one takes His life from Him &mdash; He lays it down of His own accord. And He didn't simply die; He died the most shameful, publicly humiliating death the Roman Empire could offer, stripped, beaten, mocked, and hung on a tree under a curse the Old Testament pronounces on exactly that fate &mdash; so that sinners like us could be forgiven.</p>
 
-      <blockquote class="verse">
+      <blockquote class="verse-wide">
         <p>"He was pierced for our transgressions; he was crushed for our iniquities; upon him was the chastisement that brought us peace, and with his wounds we are healed."</p>
-        <cite>Isaiah 53:5</cite>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>The humility doesn't stop at the incarnation.</p>
+</div>
+<cite>Isaiah 53:5</cite>
       </blockquote>
 
       <p>That's the shape of Christian obedience too, uncomfortable as it is to hear. We want to obey God when it's easy, safe, and makes us look good. Jesus shows us obedience that costs something and hurts, and He didn't suffer for His own sin &mdash; He had none. He suffered for yours. That's the gospel underneath this whole hymn: Christ humbled Himself to take your place.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=900&q=80" alt="Not a picture of the passage itself, but a picture of the pace it asks of us." loading="lazy">
+<figcaption>Not a picture of the passage itself, but a picture of the pace it asks of us.</figcaption>
+</figure>
 
-    <section>
+
+    <hr class="section-divider">
+<section>
       <h2>Therefore: Exalted Above Every Name</h2>
 
       <p>Verse nine turns on a single word: "Therefore, God has highly exalted him." Christ's exaltation wasn't a change of plans or a random reward. It was the direct result of His humility, His obedience, His death. Because Jesus stooped lowest, God lifted Him highest &mdash; to supreme honor, supreme glory, supreme authority, with no one in heaven, on earth, or under the earth standing above Him. That's the upside-down pattern of God's kingdom running through the whole of Scripture: whoever humbles himself will be exalted.</p>

@@ -44,13 +44,14 @@
 * { box-sizing: border-box; }
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--paper);
   color: var(--ink);
   font-family: 'PT Serif', Georgia, serif;
   line-height: 1.7;
 }
 header.site, footer.site {
-  max-width: 780px;
+  max-width: 840px;
   margin: 0 auto;
   padding: 1.75rem 1.5rem;
   display: flex;
@@ -73,7 +74,7 @@ footer.site {
   text-align: center;
 }
 .article-head {
-  max-width: 700px;
+  max-width: 760px;
   margin: 1rem auto 0;
   padding: 0 1.5rem;
   text-align: center;
@@ -104,7 +105,7 @@ footer.site {
   letter-spacing: 0.03em;
 }
 figure.hero {
-  max-width: 900px;
+  max-width: 980px;
   margin: 2rem auto;
   padding: 0 1.5rem;
 }
@@ -121,7 +122,7 @@ figure.hero figcaption {
   font-style: italic;
 }
 article.body {
-  max-width: 700px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 0 1.5rem 2rem;
 }
@@ -163,7 +164,7 @@ p.pull {
   line-height: 1.5;
 }
 .listen-box {
-  max-width: 700px;
+  max-width: 760px;
   margin: 2.5rem auto;
   padding: 1.5rem;
   background: var(--paper-raised);
@@ -181,7 +182,7 @@ p.pull {
   padding-bottom: 2px;
 }
 section.author {
-  max-width: 700px;
+  max-width: 760px;
   margin: 2.5rem auto;
   padding: 1.5rem;
   border-top: 1px solid var(--rule);
@@ -197,12 +198,81 @@ section.author strong {
 @media (prefers-reduced-motion: reduce) {
   article.body section { opacity: 1; transform: none; transition: none; }
 }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1040px;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 980px;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; width: auto; max-width: none; }
+  figure.inline-img { margin: 2rem 0; width: auto; max-width: none; }
+}
 </style>
 </head>
 <body>
 <header class="site">
   <a href="/">Word &amp; Hope</a>
-  <a href="/">First Baptist Church of Wellston</a>
 </header>
 
 <div class="article-head">
@@ -221,7 +291,7 @@ section.author strong {
 
 <section>
 <h2>Who Painted This?</h2>
-<p>Imagine walking through the front doors of the church and finding an easel there — an eight-foot painting, breathtaking, vivid, drawn straight from nature. You'd spend some time looking at it, enjoying it, and then a question would rise naturally: who painted this? When you see something beautiful, you don't stop at the thing itself. You want to know the one who made it.</p>
+<p>Imagine walking into a gallery and finding an easel there — an eight-foot painting, breathtaking, vivid, drawn straight from nature. You'd spend some time looking at it, enjoying it, and then a question would rise naturally: who painted this? When you see something beautiful, you don't stop at the thing itself. You want to know the one who made it.</p>
 <p>Psalm 19 tells us that all of creation is like that painting. It isn't silent. It's speaking, and it's telling us about its maker. But that's not all this psalm says — it also tells us that God has spoken in his word. Isaac Watts put both truths in a single verse: "The heavens declare thy glory, Lord, in every star thy wisdom shines; but when our eyes behold thy word, we read thy name in fairer lines."</p>
 <p>Psalm 19 falls into three parts: God revealed through creation in verses 1-6, God speaking through his word in verses 7-11, and then, in verses 12-14, what happens when both of those revelations meet a sinner — personal reflection and response.</p>
 </section>
@@ -240,13 +310,22 @@ section.author strong {
 <p>Verses 4-6 shift to a specific picture: "In them he has set a tent for the sun, which comes out like a bridegroom leaving his chamber, and like a strong man runs its course with joy... there is nothing hidden from its heat." The sky, it turns out, wasn't ultimately made for its own sake — it was made as a home for the sun.</p>
 <p>Many faithful readers of this psalm — Luther, Spurgeon, Augustine, and others — have seen in this an image of Christ, the Son, for whom Colossians 1:16 says all things were created. Jesus calls himself the bridegroom in Matthew 9:15, and John the Baptist calls him the same in John 3:29. And who is the strong man who runs his course with joy, if not the one Philippians 2 describes — who, though he was God, emptied himself, took the form of a servant, and became obedient even to death on a cross? C.S. Lewis captured the force of this image: "the bridal joyousness of its rising, the unimaginable speed of its daily voyage from east to west, and finally of its heat... the cloudless, blinding, tyrannous rays hammering the hills and searching every cranny." Even if you don't take the sun as a direct picture of Christ, it still stands as a constant reminder of God's glory to a world that may or may not be listening.</p>
 </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="Not a picture of the passage itself, but a picture of the pace it asks of us." loading="lazy">
+<figcaption>Not a picture of the passage itself, but a picture of the pace it asks of us.</figcaption>
+</figure>
+
 
 <section>
 <h2>God's Word Is Perfect, Sure, Right, and Pure</h2>
-<blockquote class="verse">The law of the Lord is perfect, reviving the soul; the testimony of the Lord is sure, making wise the simple. The precepts of the Lord are right, rejoicing the heart; the commandment of the Lord is pure, enlightening the eyes.
+<blockquote class="verse-wide">The law of the Lord is perfect, reviving the soul; the testimony of the Lord is sure, making wise the simple. The precepts of the Lord are right, rejoicing the heart; the commandment of the Lord is pure, enlightening the eyes.
 <cite>Psalm 19:7-8</cite>
 </blockquote>
 <p>The psalm turns from general revelation to special revelation — from creation to Scripture — using the same dual-parallelism pattern as before. God's word is perfect, sure, right, and pure: the highest standard there is, higher than any other source of truth. And it comes with real benefits — it revives the soul, makes the simple wise, rejoices the heart, enlightens the eyes. Verse 9 adds that the fear of the Lord "endures forever," and verse 10 says God's words are "more to be desired... than gold, even much fine gold," sweeter than "the honey of honeys" — the finest honey imaginable. And Scripture isn't just beautiful, it's useful: "by them your servant is warned, and in keeping them there is great reward" (v.11).</p>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>The psalm turns from general revelation to special revelation — from creation to Scripture — using the same dual-parallelism pattern as before.</p>
+</div>
 </section>
 
 <section>
@@ -255,7 +334,13 @@ section.author strong {
 <p>Because both witnesses — the world around us and the word within reach — leave mankind standing in judgment. Romans 1:20 says creation alone is enough that "people are without excuse" before God. And Romans 2 says the law is no better news for us: "it is not those who hear the law who are righteous... but those who obey the law." Who can meet that standard? When we stand in awe of a mountain range or a night sky, we should feel small — we are small, and sinful, before the God who made it all with a word. And when we look honestly at his perfect law, we see how far short we fall of it. That is genuinely bad news, if it's where the story ends.</p>
 <p class="pull">The standard doesn't bend. So something else has to happen.</p>
 </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80" alt="Something to sit with as the argument turns." loading="lazy">
+<figcaption>Something to sit with as the argument turns.</figcaption>
+</figure>
 
+
+<hr class="section-divider">
 <section>
 <h2>Declared Innocent Without Being Innocent</h2>
 <p>David's prayer is bold, almost startling: "Declare me innocent from hidden faults... keep back your servant also from presumptuous sins... then I shall be blameless." How can he say that, knowing full well he isn't innocent? God cannot simply overlook sin — he is just, and his justice never bends. So if a sinner is ever to be declared innocent, either justice must be ignored, which cannot happen, or justice must be fully satisfied another way.</p>
@@ -281,7 +366,6 @@ section.author strong {
 
 <footer class="site">
   <a href="/">&larr; Back to all articles</a>
-  <span>First Baptist Church of Wellston</span>
 </footer>
 
 <script>

@@ -61,6 +61,7 @@
 
   body{
     margin:0;
+    overflow-x: hidden;
     background: var(--paper);
     color: var(--ink);
     font-family: 'PT Serif', Georgia, serif;
@@ -131,7 +132,7 @@
   main{ display:block; }
 
   .article-head{
-    max-width: 800px;
+    max-width: 860px;
     margin: 64px auto 0;
     padding: 0 24px;
   }
@@ -179,7 +180,7 @@
     object-fit: cover;
   }
   figure.hero figcaption{
-    max-width: 800px;
+    max-width: 860px;
     margin: 14px auto 0;
     padding: 0 24px;
     font-size: 14px;
@@ -188,7 +189,7 @@
   }
 
   article.body{
-    max-width: 720px;
+    max-width: 780px;
     margin: 56px auto 0;
     padding: 0 24px 20px;
   }
@@ -283,7 +284,7 @@
   .listen-link:hover{ background:#a2402e; }
 
   section.author{
-    max-width: 720px;
+    max-width: 780px;
     margin: 40px auto 0;
     padding: 40px 24px 0;
     border-top: 1px solid var(--rule);
@@ -365,6 +366,76 @@
     }
     .reveal.is-visible{ opacity:1; transform:none; }
   }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1080px;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1020px;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; width: auto; max-width: none; }
+  figure.inline-img { margin: 2rem 0; width: auto; max-width: none; }
+}
 </style>
 </head>
 <body>
@@ -414,6 +485,11 @@
 
       <p>That's not just David's pattern &mdash; it's ours. People tend to believe, even while admitting imperfection, that they're basically good. "Yes, I've sinned, I'm not perfect, but I'm a good person" is a nearly universal sentence. We downplay how bad our sin actually is, and it's the downplaying that keeps us from confessing. It's tempting to think, "Sure, but not like David &mdash; I've never murdered anyone." But sin doesn't have to look like David's to be serious. Every sin, however small it feels, is an offense against a holy God.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1552083375-1447ce886485?auto=format&fit=crop&w=900&q=80" alt="Not a picture of the passage itself, but a picture of the pace it asks of us." loading="lazy">
+<figcaption>Not a picture of the passage itself, but a picture of the pace it asks of us.</figcaption>
+</figure>
+
 
     <section>
       <h2>Why Confess at All?</h2>
@@ -436,9 +512,19 @@
       <p>David doesn't use one word for sin in this psalm &mdash; he uses three, and they're not just poetic variation. "Transgression" means rebellion, crossing a line on purpose, like a child looking a parent in the eye and doing exactly what they were just told not to do. "Iniquity" is twistedness, crookedness &mdash; what sin does to the heart itself, bending what should be straight. And "sin" is literally an archery term: missing the center of the target, however close the arrow lands. Together they describe something deeper than an occasional bad choice &mdash; rebellion against God's authority, corruption in the heart, and failure to hit what is perfect. First John 1:8 is blunt about it: if we say we have no sin, we deceive ourselves, and the truth is not in us. Sin isn't an occasional event. It's a daily reality, which is exactly why Jesus put "forgive us our debts" in the same prayer as "give us this day our daily bread." Confession should be at least as regular as eating.</p>
 
       <p>That doesn't mean living in constant guilt &mdash; that's not the Christian life either. It means not keeping long accounts with God. Clean a house every day and it stays livable; leave it for months and the task becomes overwhelming. Set aside time daily, alone with God, to reflect honestly on where you've sinned in thought, word, and deed, and ask forgiveness. Recognize it through Scripture, which acts like a mirror showing what's actually there rather than what you'd prefer to see, and through community &mdash; God sent Nathan to David, and He still uses a friend, a spouse, a pastor to confront and restore. Pulling away from God's people makes confession rare, because you rarely see clearly what's wrong. James 5:16 ties healing itself to this: "confess your sins to one another and pray for one another, that you may be healed."</p>
-    </section>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>David doesn't use one word for sin in this psalm &mdash; he uses three, and they're not just poetic variation.</p>
+</div>
+</section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1580519542036-c47de6196ba5?auto=format&fit=crop&w=900&q=80" alt="Something to sit with as the argument turns." loading="lazy">
+<figcaption>Something to sit with as the argument turns.</figcaption>
+</figure>
 
-    <section>
+
+    <hr class="section-divider">
+<section>
       <h2>A Psalm You Can Pray Word for Word</h2>
 
       <p>Psalm 51 works as a confession prayer precisely because you could read the whole chapter aloud, say "amen," and mean every word of it. When you don't know what to say after you've sinned, this psalm already says it: "not according to anything we have done or earned, O Lord, but only according to your steadfast love." It confesses the specific weight of sin ("against you, and you only, have I sinned"), asks to be confronted rather than left comfortable, and reaches for cleansing &mdash; hyssop, the same tool used to sprinkle blood on doorposts at the Passover, now pointing to a cleansing whiter than snow because of Christ's blood.</p>

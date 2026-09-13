@@ -61,6 +61,7 @@
 
   body{
     margin:0;
+    overflow-x: hidden;
     background: var(--paper);
     color: var(--ink);
     font-family: 'PT Serif', Georgia, serif;
@@ -131,7 +132,7 @@
   main{ display:block; }
 
   .article-head{
-    max-width: 800px;
+    max-width: 860px;
     margin: 64px auto 0;
     padding: 0 24px;
   }
@@ -179,7 +180,7 @@
     object-fit: cover;
   }
   figure.hero figcaption{
-    max-width: 800px;
+    max-width: 860px;
     margin: 14px auto 0;
     padding: 0 24px;
     font-size: 14px;
@@ -188,7 +189,7 @@
   }
 
   article.body{
-    max-width: 720px;
+    max-width: 780px;
     margin: 56px auto 0;
     padding: 0 24px 20px;
   }
@@ -283,7 +284,7 @@
   .listen-link:hover{ background:#a2402e; }
 
   section.author{
-    max-width: 720px;
+    max-width: 780px;
     margin: 40px auto 0;
     padding: 40px 24px 0;
     border-top: 1px solid var(--rule);
@@ -365,6 +366,76 @@
     }
     .reveal.is-visible{ opacity:1; transform:none; }
   }
+.key-point {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  position: relative;
+}
+.key-point p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.key-point .key-label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+blockquote.verse-wide {
+  margin: 2.5rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1080px;
+  padding: 1.8rem 2.5rem;
+  background: var(--paper-raised);
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-left: none;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+}
+blockquote.verse-wide cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+figure.inline-img {
+  margin: 2.4rem calc(50% - 50vw + 1.5rem);
+  width: calc(100vw - 3rem);
+  max-width: 1020px;
+}
+figure.inline-img img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+figure.inline-img figcaption {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+hr.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 60px;
+  margin: 2.8rem auto;
+}
+@media (max-width: 640px){
+  blockquote.verse-wide { margin: 2rem 0; width: auto; max-width: none; }
+  figure.inline-img { margin: 2rem 0; width: auto; max-width: none; }
+}
 </style>
 </head>
 <body>
@@ -404,7 +475,7 @@
   <article class="body">
 
     <section>
-      <p>This is not an easy commandment to preach on, and it won't be an easy one to read. Adultery has touched nearly every family in some way, whether through a spouse's unfaithfulness, a parent's, or a private battle with lust that's never been said out loud. If any of that describes you, I'm not writing this to pile on shame you've probably already carried for years. I'm writing it because God gave us this commandment for a reason, and the reason is better than the fear or the guilt that usually surrounds this subject.</p>
+      <p>This is not an easy commandment to talk about, and it won't be an easy one to read. Adultery has touched nearly every family in some way, whether through a spouse's unfaithfulness, a parent's, or a private battle with lust that's never been said out loud. If any of that describes you, I'm not writing this to pile on shame you've probably already carried for years. I'm writing it because God gave us this commandment for a reason, and the reason is better than the fear or the guilt that usually surrounds this subject.</p>
 
       <p>The seventh commandment is short: "You shall not commit adultery." Four words in Hebrew. But to understand what it's actually protecting, and why Jesus takes it even further than most of us expect, we need to look at three things &mdash; what adultery really is, why God built marriage the way he did, and what repentance and healing actually look like when this commandment has already been broken.</p>
     </section>
@@ -425,13 +496,18 @@
 
       <p class="pull">The seventh commandment was never really a men's issue or a women's issue. It's a heart issue &mdash; which makes it everyone's issue.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80" alt="A moment of stillness before the text speaks." loading="lazy">
+<figcaption>A moment of stillness before the text speaks.</figcaption>
+</figure>
+
 
     <section>
       <h2>Why This Commandment Exists: What God Built in the Garden</h2>
 
       <p>Every "you shall not" in the Ten Commandments has a positive underneath it &mdash; something God is protecting by forbidding its opposite. To find what the seventh commandment protects, you have to go back before the commandments existed at all, to the first marriage:</p>
 
-      <blockquote class="verse">
+      <blockquote class="verse-wide">
         <p>"Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh. And the man and his wife were both naked and were not ashamed."</p>
         <cite>Genesis 2:24&ndash;25</cite>
       </blockquote>
@@ -450,15 +526,24 @@
 
       <h3>Repentance: turning around, not just stopping</h3>
       <p>Repentance means turning a full 180 degrees &mdash; not just away from the sin, but toward the thing it was substituting for. If you're struggling with pornography, lust, or an affair, the turn isn't only "stop doing that." It's "turn back toward honoring your marriage, or toward honoring the marriage you'll one day have." And this is not something anyone does alone. If lust or pornography has a grip on you, that grip is real, often closer to an addiction than a decision, and it requires confession &mdash; to your spouse if you're married, and to people who can hold you accountable either way.</p>
-
-      <h3>Forgiveness: for yourself, and from others</h3>
+<div class="key-point">
+<span class="key-label">Key Point</span>
+<p>There's a path forward, and it has three steps.</p>
+</div>
+<h3>Forgiveness: for yourself, and from others</h3>
       <p>Scripture describes sexual sin as, in a particular way, a sin against your own body. That means part of this is receiving forgiveness for yourself, not just from a spouse or from God, though both of those matter too. And if you're the one who has been wronged, Jesus is equally direct: the way you forgive is the way you'll be forgiven. Holding onto unforgiveness doesn't wound the person who hurt you. It keeps wounding you.</p>
 
       <h3>Reconciliation: rebuilding what secrecy tore down</h3>
       <p>This is the slow part, and there's no shortcut through it. Trust that was broken by hiding gets rebuilt only by the opposite of hiding &mdash; sustained honesty, over years, not a single conversation. If someone confesses this struggle to you and asks for help, resist the urge to fix it quickly. Get resourced, listen far more than you advise, and understand you may be walking with them for a long season, not a single season. That patient, ongoing accountability is part of what it means to be a church at all.</p>
     </section>
+<figure class="inline-img">
+<img src="https://images.unsplash.com/photo-1454982523318-4b6396f39d3a?auto=format&fit=crop&w=900&q=80" alt="The kind of ordinary scene Scripture keeps returning us to." loading="lazy">
+<figcaption>The kind of ordinary scene Scripture keeps returning us to.</figcaption>
+</figure>
 
-    <section>
+
+    <hr class="section-divider">
+<section>
       <h2>A Commandment Meant to Point You Somewhere Better</h2>
 
       <p>It would be easy to hear all of this as only a warning, but that misses what God is doing with his commandments. He isn't handing you a list of things to avoid so your life will be smaller. He's protecting something he built to be extraordinary &mdash; a relationship where you can be fully known and still not be ashamed, where faithfulness becomes a living picture of the faithfulness he's shown to his own people. That's worth protecting. And if this commandment has already been broken in your life, in any of the ways we've talked about, that same faithful God is not finished with you. Repentance, forgiveness, and reconciliation are slow, but they are not out of reach.</p>
