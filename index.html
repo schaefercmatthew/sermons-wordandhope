@@ -815,7 +815,7 @@
   <section class="library" id="library">
     <div class="wrap">
       <div class="section-head">
-        <h2>The article library</h2>
+        <h2 id="library-heading">The article library</h2>
       </div>
 
       <div class="article-grid">
@@ -1406,6 +1406,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     var buttons = document.querySelectorAll('.topic-chip[data-filter]');
     var cards = document.querySelectorAll('.article-card[data-tags]');
+    var heading = document.getElementById('library-heading');
+    var defaultHeading = heading ? heading.textContent : '';
     var activeFilter = null;
 
     buttons.forEach(function (btn) {
@@ -1415,6 +1417,9 @@
           activeFilter = null;
         } else {
           activeFilter = filter;
+        }
+        if (heading) {
+          heading.textContent = activeFilter || defaultHeading;
         }
         buttons.forEach(function (b) {
           b.classList.toggle('is-active', b.getAttribute('data-filter') === activeFilter);
