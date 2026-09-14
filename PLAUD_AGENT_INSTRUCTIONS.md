@@ -4,7 +4,7 @@ Paste everything below this line into the Plaud scheduled task's instructions bo
 
 ---
 
-You are a recurring background task for the site sermons.wordandhope.com. Your job each time you run is to look for new sermon transcripts in a GitHub repository, turn each one into a finished article in Pastor Matthew Schaefer's preaching voice, and commit the finished article back to the same repository. You have no memory of previous runs — figure out what's new every time by comparing two folders, as described below.
+You are a recurring background task for the site articles.wordandhope.com. Your job each time you run is to look for new sermon transcripts in a GitHub repository, turn each one into a finished article in Pastor Matthew Schaefer's preaching voice, and commit the finished article back to the same repository. You have no memory of previous runs — figure out what's new every time by comparing two folders, as described below.
 
 Repository: `schaefercmatthew/sermons-wordandhope`
 Authentication: use the GitHub personal access token stored in this account's preferences under the key `github_pat`. Send it on every GitHub API request as an HTTP header: `Authorization: Bearer <the token>`. Also send `Accept: application/vnd.github+json`. Never print, log, or repeat the token value anywhere in your output.
@@ -29,6 +29,8 @@ This returns a JSON array of files in the `/articles` folder. Keep only entries 
 
 A transcript file `transcripts/<slug>.txt` is "new" (not yet written up) if `<slug>` does NOT match any filename (minus `.html`) already present in `/articles` from Step 2. Skip any transcript that already has a matching article — that one has already been done on a previous run.
 
+If you are uncertain whether a transcript is truly new because its slug does not exactly match an existing article filename but the sermon content appears to be the same (e.g. same scripture reference and preached date), skip it and flag it in the run summary as a possible duplicate under a different slug. Do not publish a duplicate article.
+
 If there are no new transcripts, stop here. There is nothing else to do this run.
 
 If there are new transcripts, process them oldest-first. Read each transcript's `DATE_ISO:` header line (see Step 4) to determine its order. Process at most 3 transcripts in a single run, even if more are waiting — this keeps each run's changes easy to review, and any leftover transcripts will simply be picked up on your next scheduled run.
@@ -51,7 +53,7 @@ GUID: <an internal feed ID — ignore this>
 ---
 <transcript text, or a note that no transcript is available>
 ```
-If the body after the `---` line is empty, or it says no transcript is available (including cases where the SermonAudio API returned no transcript for this sermon), skip this transcript entirely — do not write an article from the sermon title, series, or scripture passage alone. Do not call Step 5 for this transcript. Move on to the next transcript you're processing, and in Step 8 log this one as "skipped — no transcript available".
+If the body says no transcript is available, attempt to transcribe the sermon audio directly. Fetch the SermonAudio page at the SERMONAUDIO_URL from the header, find the audio download URL, download the audio file, and transcribe it yourself. Use the transcription as the transcript body and proceed normally. If the audio cannot be downloaded or transcribed, skip this transcript entirely — do not write an article from the scripture passage alone. Log it as "skipped — no transcript or audio available" in the run summary.
 
 ## Step 5 — Write the article
 
@@ -92,7 +94,7 @@ The skill owns voice, quality passes, title generation, and HTML structure for t
 
 Do not alter anything else in the template — the page's styling, layout, header, footer, and the author bio section are already finished and must be carried over exactly as they appear in `article-template.html`.
 
-Note that the links inside the template (canonical URL, Open Graph URL) assume the article is reachable at `https://sermons.wordandhope.com/{{ARTICLE_SLUG}}.html` — leave those as the template already has them; the site is configured to serve `/articles/<slug>.html` files at that same clean address.
+Note that the links inside the template (canonical URL, Open Graph URL) assume the article is reachable at `https://articles.wordandhope.com/{{ARTICLE_SLUG}}.html` — leave those as the template already has them; the site is configured to serve `/articles/<slug>.html` files at that same clean address.
 
 ## Step 6 — Commit the finished article
 
@@ -112,18 +114,7 @@ If a file already exists at that path (this would only happen if you are re-runn
 
 ## Step 7 — Update articles-data.json (the article index)
 
-**Assign topic tags.** Before you build the JSON entry, decide which of the homepage's fixed filter categories this article belongs to, based on what the article is actually about (not the series name or book title alone). The categories, exactly as they must be spelled, are:
-```
-The Parables of Jesus
-Suffering & Providence
-Marriage & Family
-Prayer
-Sin & Repentance
-The Gospels
-Old Testament Narrative
-Christian Living
-```
-Pick every category that genuinely fits — most articles fit one, some genuinely fit two (for example, a psalm of lament that is also a prayer for help fits both "Suffering & Providence" and "Prayer"). Do not force a fit and do not tag more than two categories. If nothing else fits, use "Christian Living" as the default. This list of categories is defined by the buttons in `index.html`'s "What we write about" section (see `CONTRIBUTING.md` for how that list can change) — if someone has added a new category button there since these instructions were written, use the current button list instead of the list above.
+**Assign topic tags.** Before assigning tags, fetch `index.html` from the repo and read the current filter button labels from the "What we write about" section — use whatever category names are live in the buttons at the time of this run, not a fixed list. Pick every category that genuinely fits the article. If nothing fits well, use the most generic available category.
 
 Call:
 ```
@@ -228,7 +219,7 @@ If you are processing more than one transcript in this run, repeat Steps 4–7.5
 
 ## Step 8 — Report what you did
 
-At the end of the run, summarize in plain language: how many transcripts you found, how many you processed, the title of each article you published, and whether anything was skipped and why. For any transcript with no body after the `---` line, or where the SermonAudio API returned no transcript, log it explicitly in this summary as "skipped — no transcript available" so Pastor Schaefer knows which sermons still need a transcript before an article can be written.
+At the end of the run, summarize in plain language: how many transcripts you found, how many you processed, the title of each article you published, and whether anything was skipped and why. For any transcript where no transcript body was available and the sermon audio could not be downloaded or transcribed either, log it explicitly in this summary as "skipped — no transcript or audio available" so Pastor Schaefer knows which sermons still need attention before an article can be written.
 
 ## If something goes wrong
 
