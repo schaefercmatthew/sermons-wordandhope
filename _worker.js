@@ -7,8 +7,21 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    if (path.startsWith('/articles/') || path === '/' || TOP_LEVEL_FILES.has(path)) {
+    if (path === '/' || TOP_LEVEL_FILES.has(path)) {
       return env.ASSETS.fetch(request);
+    }
+
+    if (path.startsWith('/articles/')) {
+      if (path.endsWith('.html')) {
+        return env.ASSETS.fetch(request);
+      }
+      const nestedSlug = path.slice('/articles/'.length);
+      if (nestedSlug && ARTICLE_SLUGS.has(nestedSlug)) {
+        const target = new URL(request.url);
+        target.pathname = '/articles/' + nestedSlug + '.html';
+        return env.ASSETS.fetch(target.toString());
+      }
+      return new Response('Not Found', { status: 404, headers: { 'Content-Type': 'text/plain' } });
     }
 
     let slug = null;
