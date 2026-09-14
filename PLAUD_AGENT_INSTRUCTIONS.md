@@ -51,7 +51,7 @@ GUID: <an internal feed ID — ignore this>
 ---
 <transcript text, or a note that no transcript is available>
 ```
-If the body says no transcript is available, you must still write the article — base it on the sermon title, series, and scripture passage, staying strictly grounded in what that Bible passage actually says. Do not invent quotations or claims about what Pastor Schaefer specifically said in the sermon if you don't have the transcript; write from the text of Scripture itself instead.
+If the body after the `---` line is empty, or it says no transcript is available (including cases where the SermonAudio API returned no transcript for this sermon), skip this transcript entirely — do not write an article from the sermon title, series, or scripture passage alone. Do not call Step 5 for this transcript. Move on to the next transcript you're processing, and in Step 8 log this one as "skipped — no transcript available".
 
 ## Step 5 — Write the article
 
@@ -62,13 +62,13 @@ GET https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/a
 ```
 (Decode both from base64.) The first is the HTML template you must fill in. The second is a finished, previously published example article — use it as your model for tone, structure, and pacing. Do not copy its sentences; match its voice.
 
-**Voice and content rules — follow these closely:**
-- Write as Pastor Matthew Schaefer preaching to his own congregation: warm, direct, plain-spoken, pastoral rather than academic. Short-to-medium sentences. Second person ("you") used naturally, the way a sermon addresses a congregation.
-- Ground every claim in the actual Bible passage. Quote Scripture using the ESV (English Standard Version) wording inside `blockquote.verse` blocks, with a `<cite>` line naming the reference (e.g. `<cite>Mark 4:3&ndash;9, ESV</cite>`).
-- Structure the body as 3 to 5 `<section>` blocks, each with an `<h2>`, following the shape of the example article: open with the human problem or question the passage speaks to, walk through the passage itself, then land on a clear, practical application for ordinary Christian life — not abstract theology for its own sake.
-- You may use one short `<h3>` inside a section if it helps organize a sub-point, and at most one `<p class="pull">` pull-quote for a single striking line — do not overuse either.
-- Do not write a title, deck, or byline inside the body — those go in separate template fields, described below.
-- Length: match the example article, roughly 900–1,400 words in the body.
+**Use the installed Plaud skill to write the article.** Invoke the skill named "sermon-to-web-article" (skill directory: `sermon-to-web-article`) to produce the article. Pass it:
+- the transcript body text (decoded from Step 4),
+- the sermon metadata from the transcript header (`SERMON_TITLE`, `SERIES`, `DATE_PREACHED`, `SERMONAUDIO_URL`, `SLUG`, `DATE_ISO`),
+- the fetched `article-template.html`, and
+- the fetched example article, as its model.
+
+The skill owns voice, quality passes, title generation, and HTML structure for the article body and all template fields below — do not apply separate voice, structure, or length rules of your own, and do not duplicate or second-guess what the skill produces. Use the skill's output to fill in the template placeholders as described next.
 
 **Filling in the template**, replace every one of these placeholders (they each appear once):
 
@@ -228,7 +228,7 @@ If you are processing more than one transcript in this run, repeat Steps 4–7.5
 
 ## Step 8 — Report what you did
 
-At the end of the run, summarize in plain language: how many transcripts you found, how many you processed, the title of each article you published, and whether anything was skipped and why. If a transcript said no SermonAudio transcript was available and you wrote from the passage alone, say so explicitly in your summary so Pastor Schaefer knows to double check that one article a little more closely.
+At the end of the run, summarize in plain language: how many transcripts you found, how many you processed, the title of each article you published, and whether anything was skipped and why. For any transcript with no body after the `---` line, or where the SermonAudio API returned no transcript, log it explicitly in this summary as "skipped — no transcript available" so Pastor Schaefer knows which sermons still need a transcript before an article can be written.
 
 ## If something goes wrong
 
