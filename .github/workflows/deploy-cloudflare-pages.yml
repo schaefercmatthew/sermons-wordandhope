@@ -1,0 +1,47 @@
+# Deploys the site to Cloudflare Pages on every push to main that touches
+# the published site (articles, homepage, or Pages config). Regenerates the
+# article slug allowlist in _worker.js from the current /articles directory
+# so new articles are servable at their clean URL immediately after deploy.
+name: Deploy to Cloudflare Pages
+on:
+  push:
+    branches: [main]
+    paths:
+      - "articles/**"
+      - "index.html"
+      - "articles-data.json"
+      - "_worker.js"
+      - "_headers"
+      - "_redirects"
+      - "robots.txt"
+      - "sitemap.xml"
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Generate article slug allowlist
+        run: |
+          SLUGS=$(ls articles/*.html | sed 's#articles/##; s#\.html$##' | python3 -c "import json,sys; print(json.dumps(sys.stdin.read().split()))")
+          python3 - "$SLUGS" <<'PYEOF'
+          import sys, re
+          slugs_json = sys.argv[1]
+          with open('_worker.js') as f:
+              content = f.read()
+          content = content.replace('__ARTICLE_SLUGS__', slugs_json)
+          with open('_worker.js', 'w') as f:
+              f.write(content)
+          PYEOF
+          cat _worker.js | head -1
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy . --project-name=wordandhope-articles --branch=main --commit-dirty=true
