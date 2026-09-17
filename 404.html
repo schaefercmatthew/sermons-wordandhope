@@ -39,48 +39,51 @@
   a{ color: var(--accent); text-decoration-thickness: 1px; }
 
   .panel{
-    max-width: 560px;
+    max-width: 900px;
     width:100%;
     background: var(--paper-raised);
-    border-radius: 4px;
-    border-left: 3px solid var(--accent);
-    padding: 44px 40px;
+    border-radius: 6px;
+    border-left: 5px solid var(--accent);
+    padding: 90px 100px;
     text-align:center;
   }
 
   .eyebrow{
-    font-size: 13px;
-    letter-spacing: 0.06em;
+    font-size: 15px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--accent);
-    margin: 0 0 16px;
+    margin: 0 0 22px;
   }
 
   h1{
     font-family: 'Marcellus', serif;
     font-weight: 400;
-    font-size: 1.9rem;
-    line-height: 1.3;
-    margin: 0 0 18px;
+    font-size: 3rem;
+    line-height: 1.25;
+    margin: 0 0 26px;
     color: var(--ink);
   }
 
   p{
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: 20px;
+    line-height: 1.65;
     color: var(--ink-soft);
-    margin: 0 0 14px;
+    margin: 0 0 16px;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  p:last-of-type{ margin-bottom: 30px; }
+  p:last-of-type{ margin-bottom: 40px; }
 
   .btn{
     display:inline-flex;
     align-items:center;
     gap:8px;
-    padding: 13px 26px;
+    padding: 16px 34px;
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 17px;
     text-decoration:none;
     font-family:'PT Serif', serif;
   }
@@ -92,11 +95,17 @@
   .btn-primary:hover{ background:#a2402e; }
 
   .fine-print{
-    margin-top: 28px;
-    padding-top: 18px;
+    margin-top: 40px;
+    padding-top: 24px;
     border-top: 1px solid var(--rule);
-    font-size: 13px;
+    font-size: 14px;
     color: var(--ink-soft);
+  }
+
+  @media (max-width: 640px){
+    .panel{ padding: 50px 28px; }
+    h1{ font-size: 2rem; }
+    p{ font-size: 17px; }
   }
 </style>
 </head>
