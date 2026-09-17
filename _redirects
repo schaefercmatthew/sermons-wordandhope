@@ -6,17 +6,24 @@
 # Example (kept here as a template, not an active redirect):
 # /old-slug-example.html   /new-slug-example.html   301
 
+# Private chat tool: keep these above the catch-all article rules below so
+# neither /chat nor /tools/chat.html get rewritten to an article.
+/chat   /tools/chat.html   200
+
 # Published articles live in the /articles folder in this repository, but
 # should be reachable at a clean top-level address, e.g.
 # https://sermons.wordandhope.com/some-article.html instead of
 # https://sermons.wordandhope.com/articles/some-article.html. This rule
 # does that rewrite for every article automatically — you never need to
-# add a line here for a new article.
-/*.html   /articles/:splat.html   200
+# add a line here for a new article. (Uses a segment-scoped placeholder
+# instead of a splat so it only matches top-level requests like
+# /some-article.html, not nested paths like /tools/chat.html.)
+/:slug.html   /articles/:slug.html   200
 
 # Article links are also reachable without the .html extension, e.g.
 # https://sermons.wordandhope.com/some-article instead of
 # https://sermons.wordandhope.com/some-article.html. This rule rewrites
 # any extensionless top-level path to its article file automatically —
-# you never need to add a line here for a new article.
-/*   /articles/:splat.html   200
+# you never need to add a line here for a new article. (Segment-scoped
+# for the same reason as above.)
+/:slug   /articles/:slug.html   200
