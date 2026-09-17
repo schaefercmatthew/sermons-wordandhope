@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found | Word and Hope</title>
+<meta name="description" content="This page doesn't exist. Nothing works perfectly this side of glory.">
+<meta name="robots" content="noindex, follow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink: #241f1a;
+    --ink-soft: #52483e;
+    --paper: #fbf7f0;
+    --paper-raised: #f3ecdf;
+    --rule: #ddd2bd;
+    --accent: #8a3324;
+    --accent-soft: #f6e6de;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'PT Serif', Georgia, serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 24px;
+  }
+
+  a{ color: var(--accent); text-decoration-thickness: 1px; }
+
+  .panel{
+    max-width: 560px;
+    width:100%;
+    background: var(--paper-raised);
+    border-radius: 4px;
+    border-left: 3px solid var(--accent);
+    padding: 44px 40px;
+    text-align:center;
+  }
+
+  .eyebrow{
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 16px;
+  }
+
+  h1{
+    font-family: 'Marcellus', serif;
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.3;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+
+  p{
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+
+  p:last-of-type{ margin-bottom: 30px; }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 13px 26px;
+    border-radius: 3px;
+    font-size: 15px;
+    text-decoration:none;
+    font-family:'PT Serif', serif;
+  }
+
+  .btn-primary{
+    background: var(--accent);
+    color:#fff !important;
+  }
+  .btn-primary:hover{ background:#a2402e; }
+
+  .fine-print{
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <p class="eyebrow">404 &middot; Not Found</p>
+    <h1>This link is broken.</h1>
+    <p>Which, honestly, is on-brand for a world under the curse.</p>
+    <p>Nothing works perfectly this side of glory.</p>
+    <a href="/" class="btn btn-primary">Go somewhere that works</a>
+    <p class="fine-print">If you followed a link from elsewhere on the site, let us know &mdash; <a href="mailto:matthew@wordandhope.com">matthew@wordandhope.com</a>.</p>
+  </div>
+</body>
+</html>
