@@ -2,8 +2,9 @@
 // Proxies chat requests to the Anthropic API using a server-side secret,
 // so the API key never reaches the browser.
 //
-// Requires an environment variable/secret named ANTHROPIC_API_KEY to be set
-// on the Cloudflare Pages project (Settings -> Environment variables).
+// Requires environment variables/secrets ANTHROPIC_API_KEY and
+// ANTHROPIC_WORKSPACE_ID to be set on the Cloudflare Pages project
+// (Settings -> Environment variables).
 
 const SYSTEM_PROMPT =
   "You are a direct, expert assistant speaking to a professional. " +
@@ -42,15 +43,20 @@ export async function onRequestPost(context) {
     return jsonResponse({ error: "No valid messages provided." }, 400);
   }
 
+  const headers = {
+    "Content-Type": "application/json",
+    "x-api-key": env.ANTHROPIC_API_KEY,
+    "anthropic-version": "2023-06-01"
+  };
+  if (env.ANTHROPIC_WORKSPACE_ID) {
+    headers["anthropic-workspace-id"] = env.ANTHROPIC_WORKSPACE_ID;
+  }
+
   let anthropicRes;
   try {
     anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01"
-      },
+      headers: headers,
       body: JSON.stringify({
         model: MODEL,
         max_tokens: MAX_TOKENS,
