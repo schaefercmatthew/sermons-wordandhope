@@ -6,6 +6,10 @@
 # Example (kept here as a template, not an active redirect):
 # /old-slug-example.html   /new-slug-example.html   301
 
+# Private chat tool: keep this above the catch-all article rules below so
+# /chat resolves to the tool page instead of being rewritten to an article.
+/chat   /tools/chat.html   200
+
 # Published articles live in the /articles folder in this repository, but
 # should be reachable at a clean top-level address, e.g.
 # https://sermons.wordandhope.com/some-article.html instead of

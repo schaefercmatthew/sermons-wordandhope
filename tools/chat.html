@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Chat</title>
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --panel: #242424;
+    --border: #363636;
+    --text: #e8e8e8;
+    --muted: #9a9a9a;
+    --accent: #6b8afd;
+    --user-bubble: #2d3f8f;
+    --assistant-bubble: #2e2e2e;
+    --danger: #d9534f;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* ---- Gate screen ---- */
+  #gate {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    z-index: 10;
+    padding: 20px;
+  }
+  #gate.hidden { display: none; }
+  .gate-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+  }
+  .gate-box h1 {
+    font-size: 18px;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+  .gate-box input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #1e1e1e;
+    color: var(--text);
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .gate-box button {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .gate-box button:hover { opacity: 0.9; }
+  #gate-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 16px;
+  }
+
+  /* ---- App layout ---- */
+  #app {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+  }
+  #app.visible { display: flex; }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 600;
+    color: var(--text);
+  }
+  header .actions {
+    display: flex;
+    gap: 8px;
+  }
+  header button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  header button:hover { color: var(--text); border-color: var(--muted); }
+
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    line-height: 1.5;
+    font-size: 15px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--user-bubble);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .msg.assistant {
+    align-self: flex-start;
+    background: var(--assistant-bubble);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.error {
+    align-self: center;
+    background: rgba(217, 83, 79, 0.15);
+    color: var(--danger);
+    border: 1px solid rgba(217, 83, 79, 0.4);
+    font-size: 13px;
+  }
+  .msg.pending { color: var(--muted); }
+
+  #empty-state {
+    margin: auto;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 320px;
+    line-height: 1.6;
+  }
+
+  form#composer {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    background: var(--panel);
+    flex-shrink: 0;
+  }
+  #composer textarea {
+    flex: 1;
+    resize: none;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #1e1e1e;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: inherit;
+    max-height: 140px;
+    line-height: 1.4;
+  }
+  #composer textarea:focus { outline: none; border-color: var(--accent); }
+  #composer button {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    padding: 0 18px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  #composer button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 600px) {
+    .msg { max-width: 90%; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-box">
+    <h1>Enter password</h1>
+    <input type="password" id="gate-input" placeholder="Password" autocomplete="off">
+    <button id="gate-submit">Unlock</button>
+    <div id="gate-error"></div>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <h1>Claude</h1>
+    <div class="actions">
+      <button id="clear-btn" type="button">Clear</button>
+      <button id="lock-btn" type="button">Lock</button>
+    </div>
+  </header>
+  <div id="messages">
+    <div id="empty-state">Ask anything. This is a private, unhedged interface — no disclaimers, no filler.</div>
+  </div>
+  <form id="composer">
+    <textarea id="input" placeholder="Message..." rows="1" autocomplete="off"></textarea>
+    <button id="send-btn" type="submit">Send</button>
+  </form>
+</div>
+
+<script>
+(function () {
+  // ---- Config ----
+  // Change this password before sharing this page with anyone.
+  var GATE_PASSWORD = "changeme123";
+  var SESSION_KEY = "chatGateUnlocked";
+  var HISTORY_KEY = "chatHistory";
+  var API_ENDPOINT = "/api/chat";
+
+  // ---- Gate ----
+  var gateEl = document.getElementById("gate");
+  var appEl = document.getElementById("app");
+  var gateInput = document.getElementById("gate-input");
+  var gateSubmit = document.getElementById("gate-submit");
+  var gateError = document.getElementById("gate-error");
+
+  function unlock() {
+    gateEl.classList.add("hidden");
+    appEl.classList.add("visible");
+    document.getElementById("input").focus();
+  }
+
+  function tryUnlock() {
+    if (gateInput.value === GATE_PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, "1");
+      gateError.textContent = "";
+      unlock();
+    } else {
+      gateError.textContent = "Incorrect password.";
+      gateInput.value = "";
+    }
+  }
+
+  gateSubmit.addEventListener("click", tryUnlock);
+  gateInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); tryUnlock(); }
+  });
+
+  document.getElementById("lock-btn").addEventListener("click", function () {
+    sessionStorage.removeItem(SESSION_KEY);
+    gateEl.classList.remove("hidden");
+    appEl.classList.remove("visible");
+    gateInput.value = "";
+    gateInput.focus();
+  });
+
+  if (sessionStorage.getItem(SESSION_KEY) === "1") {
+    unlock();
+  } else {
+    gateInput.focus();
+  }
+
+  // ---- Chat ----
+  var messagesEl = document.getElementById("messages");
+  var emptyStateEl = document.getElementById("empty-state");
+  var form = document.getElementById("composer");
+  var input = document.getElementById("input");
+  var sendBtn = document.getElementById("send-btn");
+  var clearBtn = document.getElementById("clear-btn");
+
+  var history = [];
+  try {
+    var saved = localStorage.getItem(HISTORY_KEY);
+    if (saved) history = JSON.parse(saved);
+  } catch (e) { history = []; }
+
+  function saveHistory() {
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch (e) {}
+  }
+
+  function renderMessage(role, text, opts) {
+    opts = opts || {};
+    if (emptyStateEl) { emptyStateEl.remove(); emptyStateEl = null; }
+    var div = document.createElement("div");
+    div.className = "msg " + role + (opts.pending ? " pending" : "");
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  function renderAll() {
+    messagesEl.innerHTML = "";
+    if (history.length === 0) {
+      messagesEl.innerHTML = '<div id="empty-state">Ask anything. This is a private, unhedged interface — no disclaimers, no filler.</div>';
+      emptyStateEl = document.getElementById("empty-state");
+      return;
+    }
+    history.forEach(function (m) { renderMessage(m.role, m.content); });
+  }
+  renderAll();
+
+  clearBtn.addEventListener("click", function () {
+    if (!confirm("Clear conversation history?")) return;
+    history = [];
+    saveHistory();
+    renderAll();
+  });
+
+  input.addEventListener("input", function () {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 140) + "px";
+  });
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = input.value.trim();
+    if (!text) return;
+
+    history.push({ role: "user", content: text });
+    saveHistory();
+    renderMessage("user", text);
+    input.value = "";
+    input.style.height = "auto";
+
+    sendBtn.disabled = true;
+    var pendingEl = renderMessage("assistant", "Thinking…", { pending: true });
+
+    fetch(API_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: history.map(function (m) { return { role: m.role, content: m.content }; })
+      })
+    })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok) throw new Error(data.error || "Request failed (" + res.status + ")");
+          return data;
+        });
+      })
+      .then(function (data) {
+        pendingEl.remove();
+        var replyText = data.reply || "(empty response)";
+        history.push({ role: "assistant", content: replyText });
+        saveHistory();
+        renderMessage("assistant", replyText);
+      })
+      .catch(function (err) {
+        pendingEl.remove();
+        renderMessage("error", "Error: " + err.message);
+      })
+      .finally(function () {
+        sendBtn.disabled = false;
+        input.focus();
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
