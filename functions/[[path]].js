@@ -21,16 +21,23 @@
 // article slugs; only a genuine match is rewritten through. Anything
 // else -- a bad slug, a bad .html link, any other unknown path -- gets
 // the site's styled 404.html back with a real 404 status.
+//
+// Root-level files (depth-1 paths like /sitemap.xml or /robots.txt) can't
+// be reached through env.ASSETS.fetch() from inside this catch-all Function
+// -- Cloudflare's static asset resolution 404s on them even though the
+// files exist in the deploy output and are served fine at any deeper path
+// (e.g. /articles/*). Rather than depend on that, ROOT_FILES below answers
+// those two paths directly from content mirrored at build time from the
+// repo's root robots.txt/sitemap.xml, bypassing ASSETS.fetch entirely.
 
 import ARTICLE_SLUGS from "../articles-data.json";
+import { ROOT_FILES } from "./_root-files.js";
 
 const SLUGS = new Set(ARTICLE_SLUGS.articles.map((a) => a.slug));
 
 const PASSTHROUGH_PREFIXES = ["/articles/", "/tools/", "/api/", "/assets/"];
 const PASSTHROUGH_EXACT = new Set([
   "/",
-  "/robots.txt",
-  "/sitemap.xml",
   "/articles-data.json",
   "/article-template.html",
   "/404.html",
@@ -43,6 +50,14 @@ export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname;
+
+  if (Object.hasOwn(ROOT_FILES, path)) {
+    const file = ROOT_FILES[path];
+    return new Response(file.body, {
+      status: 200,
+      headers: { "content-type": file.contentType },
+    });
+  }
 
   if (path === "/chat") {
     return fetchAsset(env, request, "/tools/chat.html");

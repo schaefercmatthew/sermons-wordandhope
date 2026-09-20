@@ -96,6 +96,21 @@ Do not alter anything else in the template — the page's styling, layout, heade
 
 Note that the links inside the template (canonical URL, Open Graph URL) assume the article is reachable at `https://articles.wordandhope.com/{{ARTICLE_SLUG}}.html` — leave those as the template already has them; the site is configured to serve `/articles/<slug>.html` files at that same clean address.
 
+## Step: Pre-publish AI-ism check (required — do not skip)
+
+Before committing any article to main, read the full article body and check for every item on this list. If any item is found, rewrite the affected sentences and re-check until the full list passes cleanly.
+
+Automatic fail items (any one of these = rewrite required):
+- Em-dashes used as clause connectors ("X — Y" pivots) — rewrite as plain sentences
+- These exact phrases or close variants: "it is worth noting," "in conclusion," "delves into," "at its core," "journey" (metaphorical), "tapestry," "navigate," "stands as a testament," "in today's world," "reminder that," "let us," "invites us," "beckons," "underscores," "speaks to," "shines a light," "calls us to," "challenges us to," "reminds us that"
+- An opening paragraph that starts with a rhetorical question, "Throughout history," "In a world where," "The book of [X]," or any setup that explains what the article is about rather than making a point
+- Paired mirror-image sentences ("Not X, but Y. Not A, but B.") used more than once
+- Motivational-poster spirituality — generic statements about faith/hope/love not grounded in the specific text being discussed
+- Sentences that summarize what the passage is about instead of arguing what it means
+- Any sentence where the writing is explaining the article rather than making a claim
+
+This check must pass before the article is published. If it fails, rewrite the article and re-run the check until it passes — an article must never be committed to main in a failing state. Do not proceed to Step 6 until the full list passes cleanly.
+
 ## Step 6 — Commit the finished article
 
 Base64-encode the finished HTML, then call:
@@ -105,7 +120,7 @@ PUT https://api.github.com/repos/schaefercmatthew/sermons-wordandhope/contents/a
 with a JSON body:
 ```json
 {
-  "message": "Add article: <the article title>",
+  "message": "Add article: <the article title>\n\nAI-ism check: passed",
   "content": "<base64-encoded HTML>",
   "branch": "main"
 }
