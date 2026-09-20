@@ -1,6 +1,20 @@
 {
   "articles": [
     {
+      "slug": "preaching-christ-from-the-old-testament",
+      "title": "Did the Prophets Know They Were Writing About Jesus?",
+      "scripture": "Hosea 11:1",
+      "date": "2026-09-20",
+      "date_display": "September 20, 2026",
+      "sermonaudio_url": "",
+      "topic": "Knowing Christ",
+      "tags": "Knowing Christ",
+      "excerpt": "Matthew quotes Hosea 11:1, \"Out of Egypt I called my son,\" and applies it to the child Jesus, a verse that was originally about Israel's past, not a future messiah. Either Matthew is stretching the text, or something is actually there.",
+      "verse_quote": "When Israel was a child, I loved him, and out of Egypt I called my son.",
+      "verse_ref": "Hosea 11:1",
+      "image": "https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?auto=format&fit=crop&w=900&q=80"
+    },
+    {
       "slug": "malachi-1-gods-covenant-love",
       "title": "Why Did God Say He Hated Esau? What Malachi 1 Actually Means",
       "scripture": "Malachi 1:1-5",
