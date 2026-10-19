@@ -1,6 +1,20 @@
 {
   "articles": [
     {
+      "slug": "psalm-50",
+      "title": "Does God Need Your Worship?",
+      "scripture": "Psalm 50:1–23",
+      "date": "2026-10-18",
+      "date_display": "October 18, 2026",
+      "sermonaudio_url": "https://www.sermonaudio.com/sermons/101826160266393",
+      "topic": "Psalms · Worship and Thanksgiving",
+      "tags": "Praying the Psalms, Confession & Repentance, Knowing Christ, Christian Living",
+      "excerpt": "Psalm 50 exposes worship offered as payment and words of faith without obedience. God calls his people to thanksgiving, repentance, and the salvation he gives.",
+      "verse_quote": "The Mighty One, God the LORD, speaks and summons the earth from the rising of the sun to its setting. Out of Zion, the perfection of beauty, God shines forth. Our God comes; he doe",
+      "verse_ref": "Psalm 50:1–23 (ESV)",
+      "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=80"
+    },
+    {
       "slug": "joel-1-when-communion-breaks",
       "title": "Joel 1: When You Can't Fix What's Broken Between You and God",
       "scripture": "Joel 1",
