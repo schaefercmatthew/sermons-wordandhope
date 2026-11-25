@@ -64,6 +64,8 @@ header.site a, footer.site a {
   text-decoration: none;
   letter-spacing: 0.03em;
 }
+header.site .site-nav { display:flex; gap:1.25rem; flex-wrap:wrap; font-size:0.95rem; }
+@media (max-width:560px){ header.site { flex-wrap:wrap; gap:0.5rem; } header.site .site-nav { gap:0.9rem; font-size:0.85rem; } }
 .top-back-link {
   display: inline-flex;
   align-items: center;
@@ -297,6 +299,11 @@ hr.section-divider {
 <body>
 <header class="site">
   <a href="/">Word &amp; Hope</a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="/">Articles</a>
+    <a href="https://www.wordandhope.com">Main Site</a>
+    <a href="/pastors-planner-2027/">Pastor&rsquo;s Planner</a>
+  </nav>
 </header>
 
 <div class="top-back-link">

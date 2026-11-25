@@ -24,6 +24,12 @@ Sitemap: https://articles.wordandhope.com/sitemap.xml
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://articles.wordandhope.com/pastors-planner-2027/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://articles.wordandhope.com/1-samuel-15-1-15-35.html</loc>
     <lastmod>2026-09-13</lastmod>
     <changefreq>monthly</changefreq>
