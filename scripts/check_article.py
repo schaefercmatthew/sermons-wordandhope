@@ -55,8 +55,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("article")
     ap.add_argument("transcript")
-    ap.add_argument("--min-words", type=int, default=900)
-    ap.add_argument("--max-words", type=int, default=1400)
+    ap.add_argument("--min-words", type=int, default=0)
+    ap.add_argument("--max-words", type=int, default=10**6)
     ap.add_argument("--min-overlap", type=float, default=0.55)
     a = ap.parse_args()
 
@@ -120,10 +120,16 @@ def main():
                 and w1[0] == w2[0] and w1[0] in {"he", "she", "it", "they", "this", "that", "you", "we", "i", "asaph", "job"}):
             mir.append(s1 + " / " + s2)
     mir += re.findall(r"[^.?!]*,\s*and not\s[^.?!]*", prose)
-    if len(mir) > 1:
-        fails.append(f"'not X, but Y' pattern used {len(mir)} times (max 1): " + " || ".join(m_.strip()[:90] for m_ in mir))
-    elif mir:
-        warns.append("one 'not X, but Y' pattern present")
+    added = []
+    for m_ in mir:
+        t_ = trigrams(words(m_.replace(" / ", " ")))
+        cov_ = len(t_ & tr_tri) / len(t_) if t_ else 0
+        if cov_ < 0.5:
+            added.append(m_)
+    if added:
+        fails.append("'not X, but Y' contrast not from the transcript (drafter-added): " + " || ".join(x.strip()[:90] for x in added))
+    if mir:
+        warns.append(f"{len(mir)} 'not X, but Y' contrast(s), all from the transcript (kept by design)")
 
     # colons
     colons = len(re.findall(r"(?<!\d):(?!\d)", prose))

@@ -15,7 +15,8 @@ phrases, pulpit-only references ("turn with me"), and anything tied to the day i
 
 1. Clean the spoken artifacts (um, uh, "you know", restarts, mid-sentence corrections).
 2. Reorder only as needed to make a 3 to 5 section article. Section order should follow the passage.
-3. Cut to length by dropping the least essential material, not by summarizing it.
+3. Length is not a constraint. Include everything that carries the argument. If something must be
+   cut for readability, drop a whole point and log it in the notes. Never compress it into a summary.
    Summaries are the main way voice gets lost. Cut a whole point before you compress it.
 4. Keep every illustration Matthew used that carries weight (the hike, the goat, the toddler).
    If an illustration has to go, say so in the notes file.
@@ -47,7 +48,7 @@ He names a hard thing plainly and then answers it from the text.
 ## Hard fails (the script checks these)
 
 - No em-dashes anywhere in the title, description, deck, or body. (The shared site footer in
-  `article-template.html` has one; that is a template decision, flagged separately.) No spaced en-dashes used as connectors. En-dashes are allowed only
+  `article-template.html` has one. Matthew chose to keep it; do not change it.) No spaced en-dashes used as connectors. En-dashes are allowed only
   in number ranges (Psalm 73:3–12).
 - None of these phrases: "it is worth noting", "worth noting", "in conclusion", "delves into",
   "at its core", "journey" (metaphorical), "tapestry", "navigate", "stands as a testament",
@@ -58,7 +59,8 @@ He names a hard thing plainly and then answers it from the text.
   "note that", "observe that", "consider this".
 - No opening paragraph that starts with a rhetorical question, "Throughout history",
   "In a world where", or "The book of".
-- No more than one "not X, but Y" / "it's not X, it's Y" pair in the whole article.
+- No "not X, but Y" / "it's not X, it's Y" contrast that the drafter added. Contrasts Matthew
+  himself preached are kept as he said them (decision from Matthew, Nov 25).
 - Colons are rare in prose. The script warns above 6.
 - Every first-person sentence must be traceable to the transcript.
 - Most of the article's wording must come from the transcript (overlap threshold in the script).

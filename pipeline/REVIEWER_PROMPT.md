@@ -22,7 +22,8 @@ Be strict. A false "pass" publishes something he never said. A false "fail" only
    including the gospel turn? List anything added, inverted, or overstated.
 4. **Voice.** Is it Matthew's sentences, lightly edited, or a rewrite in generic polished prose?
    Quote the three most "written-by-AI" sentences if any exist.
-5. **Rules.** Re-check the hard-fail list by reading, not just by the script. Check
+5. **Rules.** Article length is not a rule. "Not X, but Y" contrasts that Matthew preached are allowed; fail only contrasts the drafter added. The template footer dash is intentional.
+   Re-check the hard-fail list by reading, not just by the script. Check
    motivational-poster spirituality and summary-instead-of-argument sentences.
 6. **Scripture.** Check each ESV quotation and reference against the ESV as best you can.
    Flag any doubtful wording. Say plainly when you could not verify.
