@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+"""Keep the rest of the site in step with an article.
+
+  update_site.py publish SLUG   add or refresh the data entry, homepage card, "latest article" link,
+                                and sitemap entry for pipeline/meta/SLUG.json
+  update_site.py backfill       add sitemap entries and JSON-LD dates for articles that lack them
+  update_site.py check          report any article missing from data, homepage, or sitemap
+
+Run from the repository root. Safe to run twice.
+"""
+import datetime
+import glob
+import html
+import json
+import os
+import re
+import sys
+
+SITE = "https://articles.wordandhope.com"
+today = datetime.date.today().isoformat()
+
+
+def read(p):
+    return open(p, encoding="utf-8").read()
+
+
+def write(p, s):
+    open(p, "w", encoding="utf-8").write(s)
+
+
+def live_tags():
+    return {html.unescape(t) for t in re.findall(r'class="topic-chip"[^>]*data-filter="([^"]+)"', read("index.html"))}
+
+
+def image_urls(meta):
+    base = meta["image_base"]
+    return (base + "?auto=format&fit=crop&w=1600&q=80", base + "?auto=format&fit=crop&w=900&q=80")
+
+
+def card_html(m):
+    e = html.escape
+    _, card_img = image_urls(m)
+    tags = ", ".join(m["tags"])
+    return f'''        <a class="article-card" href="/{m["slug"]}.html" data-tags="{e(tags)}">
+          <div class="card-media">
+            <img src="{e(card_img)}" alt="{e(m["title"])}" loading="lazy" width="900" height="563">
+          </div>
+          <div class="card-body">
+            <p class="card-topic">{m["kicker"]}</p>
+            <h3>{e(m["title"], quote=False)}</h3>
+            <p class="card-excerpt">{e(m["deck"], quote=False)}</p>
+            <p class="card-verse">&#8220;{e(m["verse_quote"], quote=False)}&#8221; &mdash; {e(m["verse_ref"], quote=False)}</p>
+            <div class="card-meta">
+              <span>Matthew Schaefer</span>
+              <span class="card-readmore">Read article &rarr;</span>
+            </div>
+          </div>
+        </a>
+
+'''
+
+
+def sitemap_entry(slug, lastmod):
+    return f'''  <url>
+    <loc>{SITE}/{slug}</loc>
+    <lastmod>{lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+'''
+
+
+def add_sitemap(slug, lastmod):
+    sm = read("sitemap.xml")
+    if f"<loc>{SITE}/{slug}</loc>" in sm:
+        return False
+    sm = sm.replace("</urlset>", sitemap_entry(slug, lastmod) + "</urlset>")
+    write("sitemap.xml", sm)
+    return True
+
+
+def set_home_lastmod():
+    sm = read("sitemap.xml")
+    sm = re.sub(r"(<loc>" + re.escape(SITE) + r"/</loc>\s*<lastmod>)[^<]*", r"\g<1>" + today, sm, count=1)
+    write("sitemap.xml", sm)
+
+
+def ensure_ld(path, date_iso):
+    s = read(path)
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', s, re.S)
+    if not m or '"datePublished"' in m.group(1):
+        return False
+    block = m.group(1)
+    og = re.search(r'<meta property="og:image" content="([^"]+)"', s)
+    extra = f'  "datePublished": "{date_iso}",\n'
+    if '"image"' not in block and og:
+        extra += f'  "image": "{og.group(1)}",\n'
+    nb, n = re.subn(r'(  "author")', lambda x: extra + x.group(1), block, count=1)
+    if not n:
+        return False
+    json.loads(nb)  # must still parse
+    write(path, s.replace(block, nb, 1))
+    return True
+
+
+def publish(slug):
+    m = json.load(open(f"pipeline/meta/{slug}.json", encoding="utf-8"))
+    bad = [t for t in m["tags"] if t not in live_tags()]
+    if bad:
+        sys.exit(f"tags not among the live homepage filter buttons: {bad}\nlive: {sorted(live_tags())}")
+    if not os.path.exists(f"articles/{slug}.html"):
+        sys.exit(f"articles/{slug}.html does not exist")
+
+    norm = lambda s: re.sub(r"[^a-z0-9]+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s)).lower()).strip()
+    if norm(m["verse_quote"]) not in norm(read(f"articles/{slug}.html")):
+        sys.exit("verse_quote does not appear in the article body")
+
+    # articles-data.json
+    d = json.load(open("articles-data.json", encoding="utf-8"))
+    entry = {
+        "slug": slug, "title": m["title"], "scripture": m["scripture"], "date": m["date_iso"],
+        "date_display": m["sermon_date"], "sermonaudio_url": m["sermonaudio_url"],
+        "topic": html.unescape(m["kicker"]), "tags": ", ".join(m["tags"]), "excerpt": m["deck"],
+        "verse_quote": m["verse_quote"], "verse_ref": m["verse_ref"] + " (ESV)", "image": image_urls(m)[1],
+    }
+    arts = d["articles"]
+    for i, a in enumerate(arts):
+        if a["slug"] == slug:
+            arts[i] = entry
+            break
+    else:
+        arts.insert(0, entry)
+    write("articles-data.json", json.dumps(d, indent=2, ensure_ascii=False) + "\n")
+
+    # homepage card
+    idx = read("index.html")
+    idx = re.sub(r'        <a class="article-card" href="/' + re.escape(slug) + r'\.html".*?</a>\n\n?', "", idx, count=1, flags=re.S)
+    marker = '<div class="article-grid">\n'
+    assert marker in idx, "article grid not found"
+    idx = idx.replace(marker, marker + card_html(m), 1)
+
+    # "latest article" button points at the newest sermon by date
+    newest = max(arts, key=lambda a: a["date"])["slug"]
+    idx = re.sub(r'(<a href=")/[^"]+(\.html" class="btn btn-primary">Read the latest article)', r"\g<1>/" + newest + r"\g<2>", idx, count=1)
+    write("index.html", idx)
+
+    # sitemap and JSON-LD
+    add_sitemap(slug, today)
+    set_home_lastmod()
+    ensure_ld(f"articles/{slug}.html", m["date_iso"])
+    print(f"published site entries for {slug}; latest article is {newest}")
+
+
+def backfill():
+    d = json.load(open("articles-data.json", encoding="utf-8"))["articles"]
+    added = lds = 0
+    for a in d:
+        if add_sitemap(a["slug"], a["date"]):
+            added += 1
+        if ensure_ld(f"articles/{a['slug']}.html", a["date"]):
+            lds += 1
+    print(f"sitemap entries added: {added}; article JSON-LD dates added: {lds}")
+
+
+def check():
+    arts = {os.path.basename(f)[:-5] for f in glob.glob("articles/*.html")}
+    data = {a["slug"] for a in json.load(open("articles-data.json", encoding="utf-8"))["articles"]}
+    cards = set(re.findall(r'class="article-card" href="/([^"]+?)\.html"', read("index.html")))
+    sm = set(re.findall(r"<loc>" + re.escape(SITE) + r"/([^<]+?)</loc>", read("sitemap.xml")))
+    nold = [s for s in arts if '"datePublished"' not in read(f"articles/{s}.html")]
+    problems = {"missing from data": arts - data, "missing from homepage": arts - cards,
+                "missing from sitemap": arts - sm, "no datePublished": set(nold)}
+    ok = True
+    for k, v in problems.items():
+        if v:
+            ok = False
+            print(k + ":", sorted(v))
+    print("site is consistent" if ok else "INCONSISTENT")
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    cmd = sys.argv[1] if len(sys.argv) > 1 else ""
+    if cmd == "publish":
+        publish(sys.argv[2])
+    elif cmd == "backfill":
+        backfill()
+    elif cmd == "check":
+        sys.exit(check())
+    else:
+        sys.exit(__doc__)

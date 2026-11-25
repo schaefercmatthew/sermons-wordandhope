@@ -1,3 +1,5 @@
+> **Retired Nov 25, 2026.** This was the Plaud task prompt. The current process is `pipeline/TASK_PROMPT.md`. Kept for reference only.
+
 # Instructions for the scheduled sermon-article Background Agent
 
 Paste everything below this line into the Plaud scheduled task's instructions box, exactly as written.

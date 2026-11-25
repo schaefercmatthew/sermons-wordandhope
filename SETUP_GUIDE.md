@@ -1,33 +1,37 @@
-# Setup Guide — Sermons Word & Hope Automation
+# Setup guide: Word & Hope sermon articles
 
-This picks up from where the repository and Netlify hosting were already connected. Everything below is what's needed to finish and keep the pipeline running.
+## How it works
 
-## What this pipeline does
+1. **Transcripts.** A GitHub Action (`.github/workflows/check-sermons.yml`) runs daily at 13:00 UTC. It checks
+   SermonAudio for new sermons and commits their transcripts to `transcripts/`. It uses the repository secret
+   `SERMONAUDIO_API_KEY`. No writing happens in this step.
+2. **Articles.** A weekly Claude scheduled task follows `pipeline/TASK_PROMPT.md`. For each new transcript it
+   edits the sermon into an article using `pipeline/VOICE_RULES.md`, runs `scripts/check_article.py`, has an
+   independent reviewer agent check it, then publishes. If the reviewer will not pass it, nothing is published
+   and a `review/<slug>` branch is pushed for you to read.
+3. **Site updates.** `scripts/update_site.py publish <slug>` updates `articles-data.json`, the homepage card, the
+   "Read the latest article" button, and `sitemap.xml` together, using `pipeline/meta/<slug>.json`.
+4. **Deploy.** `.github/workflows/deploy.yml` deploys the repository to Cloudflare Pages on every push to `main`.
+   It uses the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+   `_redirects` is read by Cloudflare Pages.
 
-1. Every day, a GitHub Action checks SermonAudio for new sermons and downloads their transcripts into the repo's `/transcripts` folder. No AI writing happens in this step — it's a plain download.
-2. A recurring Plaud scheduled task (set up in the step below) checks that same repo for any transcript that doesn't have a matching article yet, writes a polished article in your preaching voice, and publishes it to the site — updating the homepage automatically in the same run.
-3. Netlify republishes the site automatically any time a file changes in the repo. There is nothing to click or deploy manually.
+## Where things live
 
-## Step 3 — Register the recurring Plaud scheduled task
+| Item | Location |
+|---|---|
+| Voice rules | `pipeline/VOICE_RULES.md` |
+| Reviewer instructions | `pipeline/REVIEWER_PROMPT.md` |
+| Weekly task prompt | `pipeline/TASK_PROMPT.md` |
+| Per-article metadata (tags, image, verse) | `pipeline/meta/` |
+| Drafter notes (corrections to your wording, cuts) | `pipeline/notes/` |
+| Hero photo catalog | `pipeline/images.json` (`scripts/pick_image.py`) |
+| Article page template | `article-template.html` |
+| Retired Plaud prompt | `pipeline/archive/` |
 
-This is the one piece that had to be created by hand. Set up a recurring Plaud scheduled task (daily is recommended) with the instructions already saved in the repo file `PLAUD_AGENT_INSTRUCTIONS.md`. Copy everything below the `---` line in that file into the task's instructions box, exactly as written — it already contains complete, tested steps for finding new transcripts, writing the article, and updating the homepage.
+## Things to know
 
-Suggested timing: run it daily, a few hours after the transcript-fetching GitHub Action runs (for example, once in the early morning), so it always has fresh transcripts ready when it checks. The exact time isn't critical — the task safely does nothing if there's nothing new to write.
-
-## Step 4 — Nothing else to configure
-
-- The `_redirects` file, the article template, and the homepage template are already in place and working — no changes needed.
-- The GitHub Action that fetches transcripts is already correct and requires no edits.
-- `articles-data.json` is the master list the homepage is built from; the scheduled task updates it automatically every time it publishes a new article.
-
-## Current status (as of this write-up)
-
-All 32 sermons currently on your SermonAudio page have been turned into published articles on the site, matching the tone and structure of your original sample article. The recurring task above will pick up automatically from here — any sermon posted after today will flow through the same pipeline without you doing anything.
-
-## One thing that needs your attention
-
-The live site is currently returning an "Unauthorized" (401) response on every page — including the homepage — when checked directly. This matches the behavior of Netlify's **Visitor Access** / **Edge Access** feature, which puts a login gate in front of the entire site. If that setting is turned on for this site, a visitor (or this automation, checking that pages loaded correctly) will see this login screen instead of the article.
-
-To fix it: in the Netlify dashboard, open this site's **Site configuration → Visitor access**, and turn Visitor Access off (or add the right credentials if you want to keep it on for some other reason). This is not something that can be changed through the GitHub repository — it has to be done in Netlify's own settings, which only someone with access to your Netlify account can do.
-
-Once that's turned off, every article link on the homepage should load normally for anyone who visits.
+- Hero photos come from Unsplash and are chosen from photos already on the site. To add a new photo, confirm the
+  URL loads in a browser, then run `python3 scripts/pick_image.py add <url> "alt text" "theme words"`.
+- Homepage filter buttons are the source of truth for topic tags. A new tag needs a new button in `index.html` first.
+- Check the whole site at any time with `python3 scripts/update_site.py check`.
+- Hosting is Cloudflare Pages. An earlier version of this guide described Netlify, which this site no longer uses.
