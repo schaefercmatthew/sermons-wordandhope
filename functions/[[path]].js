@@ -75,11 +75,18 @@ export async function onRequest(context) {
   }
 
   // A bare top-level slug, with or without .html -- the only shape the
-  // article catch-all rules in _redirects rewrite.
+  // article catch-all rules in _redirects rewrite. With .html it is served;
+  // without, it redirects (see below).
   const slugMatch = path.match(/^\/([^/]+?)(\.html)?$/);
   const slug = slugMatch ? slugMatch[1] : null;
 
   if (slug && SLUGS.has(slug)) {
+    // One address per article: /slug.html. It matches the canonical tag, the
+    // sitemap, and every internal link. The extensionless form is a permanent
+    // redirect so search engines never see two copies of the same page.
+    if (!slugMatch[2]) {
+      return Response.redirect(`${url.origin}/${slug}.html${url.search}`, 301);
+    }
     return fetchAsset(env, request, `/articles/${slug}.html`);
   }
 

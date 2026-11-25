@@ -2,7 +2,7 @@
 """Fill article-template.html from a metadata JSON and a body HTML file.
 
 Usage: build_article.py META.json BODY.html OUT.html
-META keys: title, description, slug, image_base, date_iso, hero_alt, hero_caption, kicker, deck,
+META keys: title, description, slug, image_base (or image_local: true for a generated verse card), date_iso, hero_alt, hero_caption, kicker, deck,
            sermon_title, scripture, sermon_date, sermonaudio_url
 """
 import datetime
@@ -19,7 +19,8 @@ vals = {
     "ARTICLE_TITLE": esc(meta["title"]),
     "ARTICLE_DESCRIPTION": esc(meta["description"]),
     "ARTICLE_SLUG": meta["slug"],
-    "HERO_IMAGE_URL": meta["image_base"] + "?auto=format&fit=crop&w=1600&q=80",
+    "HERO_IMAGE_URL": ("https://articles.wordandhope.com/assets/heroes/" + meta["slug"] + ".png") if meta.get("image_local")
+                      else meta["image_base"] + "?auto=format&fit=crop&w=1600&q=80",
     "DATE_ISO": meta["date_iso"],
     "HERO_IMAGE_ALT": esc(meta["hero_alt"]),
     "HERO_CAPTION": meta["hero_caption"],

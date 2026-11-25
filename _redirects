@@ -20,7 +20,9 @@
 # /some-article.html, not nested paths like /tools/chat.html.)
 /:slug.html   /articles/:slug.html   200
 
-# Article links are also reachable without the .html extension, e.g.
+# Article links without the .html extension are permanently redirected to the
+# .html address by functions/[[path]].js, which runs before this file. The rule
+# below is a fallback only. Originally: article links were also reachable without .html, e.g.
 # https://sermons.wordandhope.com/some-article instead of
 # https://sermons.wordandhope.com/some-article.html. This rule rewrites
 # any extensionless top-level path to its article file automatically —

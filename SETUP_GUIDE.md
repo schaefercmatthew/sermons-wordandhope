@@ -30,6 +30,11 @@
 
 ## Things to know
 
+- **One address per article:** `https://articles.wordandhope.com/<slug>.html`. The canonical tags, sitemap, and homepage
+  links all use it. The address without `.html` redirects to it (301) in `functions/[[path]].js`.
+- **The sitemap Google reads** is served from `functions/_root-files.js`, a generated copy of `sitemap.xml`.
+  `scripts/update_site.py` keeps the two in sync. Do not edit the copy by hand.
+
 - Hero photos come from Unsplash and are chosen from photos already on the site. To add a new photo, confirm the
   URL loads in a browser, then run `python3 scripts/pick_image.py add <url> "alt text" "theme words"`.
 - Homepage filter buttons are the source of truth for topic tags. A new tag needs a new button in `index.html` first.
