@@ -35,7 +35,7 @@ import { ROOT_FILES } from "./_root-files.js";
 
 const SLUGS = new Set(ARTICLE_SLUGS.articles.map((a) => a.slug));
 
-const PASSTHROUGH_PREFIXES = ["/articles/", "/tools/", "/api/", "/assets/"];
+const PASSTHROUGH_PREFIXES = ["/articles/", "/tools/", "/api/", "/assets/", "/pastors-planner-2027/"];
 const PASSTHROUGH_EXACT = new Set([
   "/",
   "/articles-data.json",
@@ -50,6 +50,7 @@ export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname;
+  if (path === "/pastors-planner-2027") return Response.redirect(url.origin + "/pastors-planner-2027/" + url.search, 301);
 
   if (Object.hasOwn(ROOT_FILES, path)) {
     const file = ROOT_FILES[path];
